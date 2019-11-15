@@ -701,10 +701,14 @@ void CinputDlg::OnBnClickedcolse()
 
 
 
+	if(AfxMessageBox(_T("您确定要退出当前数据录入工作，请三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
+	{
+		CinputDlg::OnCancel();
+	}
 
 	
 
-	CinputDlg::OnCancel();
+	
 }
 
 
@@ -726,10 +730,12 @@ void CinputDlg::OnBnClickedStart()
 	    if(nIndex==1)
 		{
 	        exstrFolder=strTemp1+CString("sample.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
+			m_inputstring1=_T("0,1,2,3,4,5");
 		}
 		else if(nIndex==0)
 		{
 			 exstrFolder=strTemp1+CString("sample_I_2U.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
+			 m_inputstring1=_T("4,8,12,16,20");
 		}
 	    exfilename=strTemp1+m_inputstring3+CString("\\")+m_inputstring3+CString(".xlsx");
 	   //复制操作
@@ -742,11 +748,13 @@ void CinputDlg::OnBnClickedStart()
                if(nIndex==1)
 		        {
 	              exstrFolder=strTemp1+CString("sample.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
+				  m_inputstring1=_T("0,1,2,3,4,5");
 		        }
 		        else if(nIndex==0)
 		       {
 			       exstrFolder=strTemp1+CString("sample_I_2U.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
-		       }
+				   m_inputstring1=_T("4,8,12,16,20");
+			   }
 		       exfilename=strTemp1+m_inputstring3+CString("\\")+m_inputstring3+CString(".xlsx");
 			   int nRet = _taccess(exfilename, 0);
                int ret_out;
@@ -760,7 +768,7 @@ void CinputDlg::OnBnClickedStart()
 			   }
 	}
 
-	
+	UpdateData(FALSE);
 
 
 	

@@ -93,4 +93,5 @@ public:
 	afx_msg void OnBnClickedstop();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedCancel();
 };

@@ -1769,7 +1769,12 @@ void I_2U::OnBnClickedCancel()
 
 
 	m_closeornot=TRUE;
-	CDialogEx::OnCancel();
+
+	if(AfxMessageBox(_T("您确定要退出当前I-2U填表工作，请三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
+	{
+		CDialogEx::OnCancel();
+	}
+	
 }
 
 

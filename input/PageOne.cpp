@@ -86,6 +86,7 @@ BEGIN_MESSAGE_MAP(PageOne, CDialogEx)
 	ON_BN_CLICKED(IDC_stop, &PageOne::OnBnClickedstop)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_BUTTON1, &PageOne::OnBnClickedButton1)
+	ON_BN_CLICKED(IDCANCEL, &PageOne::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -1199,4 +1200,16 @@ void PageOne::OnBnClickedButton1()
 
 	CoUninitialize(); 
 
+}
+
+
+void PageOne::OnBnClickedCancel()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	if(AfxMessageBox(_T("您确定要退出当前U-I填表工作，请三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
+	{
+		CDialogEx::OnCancel();
+	}
+	
 }
