@@ -1,0 +1,59 @@
+﻿生成启动时间为 2019/11/13 15:37:15。
+     1>项目“C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\input\input.vcxproj”在节点 2 上(build 个目标)。
+     1>PrepareForBuild:
+         正在创建目录“C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\Release\”。
+       InitializeBuildStatus:
+         正在创建“Release\input.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Release\input.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\input.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt input.cpp inputDlg.cpp I_2U.cpp PageOne.cpp
+         input.cpp
+         inputDlg.cpp
+     1>inputDlg.cpp(247): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(257): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(269): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : 参见“fopen”的声明
+     1>inputDlg.cpp(274): warning C4018: “<”: 有符号/无符号不匹配
+     1>inputDlg.cpp(306): warning C4018: “<”: 有符号/无符号不匹配
+     1>inputDlg.cpp(381): warning C4018: “<”: 有符号/无符号不匹配
+     1>inputDlg.cpp(387): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(388): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(423): warning C4018: “<”: 有符号/无符号不匹配
+     1>inputDlg.cpp(434): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(438): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(438): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(444): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(445): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>inputDlg.cpp(496): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : 参见“fopen”的声明
+     1>inputDlg.cpp(635): warning C4018: “<”: 有符号/无符号不匹配
+         I_2U.cpp
+     1>I_2U.cpp(254): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>I_2U.cpp(264): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+         PageOne.cpp
+     1>PageOne.cpp(174): warning C4805: “==”: 在操作中将类型“BOOL”与类型“bool”混合不安全
+     1>PageOne.cpp(374): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>PageOne.cpp(384): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+       ResourceCompile:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0804" /IRelease\ /nologo /fo"Release\input.res" input.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\Release\input.exe" /INCREMENTAL:NO /NOLOGO /MANIFEST /ManifestFile:"Release\input.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\Release\input.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\Release\input.lib" /MACHINE:X86 Release\input.res
+         Release\input.obj
+         Release\inputDlg.obj
+         Release\I_2U.obj
+         Release\PageOne.obj
+         Release\stdafx.obj
+         正在生成代码
+         已完成代码的生成
+         input.vcxproj -> C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\Release\input.exe
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\Release\input.exe;#1" /manifest Release\input.exe.intermediate.manifest "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Include\Manifest\dpiaware.manifest"
+       FinalizeBuildStatus:
+         正在删除文件“Release\input.unsuccessfulbuild”。
+         正在对“Release\input.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\Users\xiemengdi\Documents\Visual Studio 2010\Projects\input\input\input.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:13.42
