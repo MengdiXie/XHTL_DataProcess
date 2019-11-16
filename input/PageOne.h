@@ -23,7 +23,7 @@ public:
 	CString m_signal_source;
 	CString m_ฒโสินคืฐ;
 
-
+	CString m_ฒโสิฝืถฮ;
 
 
 

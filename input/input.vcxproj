@@ -106,6 +106,7 @@
     <ClInclude Include="CWorkbooks.h" />
     <ClInclude Include="CWorksheet.h" />
     <ClInclude Include="CWorksheets.h" />
+    <ClInclude Include="DO.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="inputDlg.h" />
     <ClInclude Include="I_2U.h" />
@@ -115,6 +116,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DO.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="inputDlg.cpp" />
     <ClCompile Include="I_2U.cpp" />

@@ -42,6 +42,8 @@ void I_2U::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT7, m_signal_source);
 	DDX_Text(pDX, IDC_EDIT8, m_测试工装);
 
+	DDX_Text(pDX, IDC_EDIT10, m_测试阶段);
+
 	DDX_Text(pDX, IDC_tab2, m_tab2);
 	DDX_Text(pDX, IDC_tab3, m_tab3);
 	DDX_Text(pDX, IDC_tab4, m_tab4);
@@ -96,6 +98,7 @@ BOOL I_2U::OnInitDialog()
 	 m_constant_volt_source=_T("20190620-20200619");
 	 m_signal_source=_T("20190620-20200619");
 	 m_测试工装=_T("20190620-20200619");
+	 m_测试阶段=_T("单板环境试验后");
 
 	 m_tab3=_T("8,8,8,8,8,8,8,8,8,8,8,8");
 	 m_tab4=_T("250,8,8,8,8,8,8,8,8,8,8,8,8,250,8,8");
@@ -368,6 +371,8 @@ DWORD I_2U::Button1Thread(LPVOID lpParam)
 	vec_str.push_back(pMain->m_constant_volt_source);
 	vec_str.push_back(pMain->m_signal_source);
 	vec_str.push_back(pMain->m_测试工装);
+	vec_str.push_back(pMain->m_测试阶段);
+	
 
 	vec_Pos.push_back(_T("B4"));
     vec_Pos.push_back(_T("B5"));
@@ -380,7 +385,7 @@ DWORD I_2U::Button1Thread(LPVOID lpParam)
     vec_Pos.push_back(_T("D14"));
     vec_Pos.push_back(_T("D15"));
     vec_Pos.push_back(_T("D16"));
-
+    vec_Pos.push_back(_T("B7"));
 
 	for(size_t i=0;i<vec_Pos.size();++i)
 	{
@@ -1728,6 +1733,8 @@ GameOver11:
 
 	    pMain->m_click=TRUE;
 
+
+
 	    return TRUE;
 
 }
@@ -1770,7 +1777,7 @@ void I_2U::OnBnClickedCancel()
 
 	m_closeornot=TRUE;
 
-	if(AfxMessageBox(_T("您确定要退出当前I-2U填表工作，请三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
+	if(AfxMessageBox(_T("您确定要退出当前I-2U填表工作，劝君三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
 	{
 		CDialogEx::OnCancel();
 	}

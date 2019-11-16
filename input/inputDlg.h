@@ -2,6 +2,7 @@
 // inputDlg.h : 头文件
 //
 
+
 #pragma once
 #include<vector>
 
@@ -22,6 +23,8 @@ public:
 
 // 对话框数据
 	enum { IDD = IDD_INPUT_DIALOG };
+
+	enum {D_O=0,I2U=1,UI=2};
 
 	CString m_inputstring1;
 	CString m_inputstring2;

@@ -19,6 +19,7 @@ public:
 	CString m_constant_volt_source;
 	CString m_signal_source;
 	CString m_²âÊÔ¹¤×°;
+	CString m_²âÊÔ½×¶Î;
 
 	CString m_strtime;
 

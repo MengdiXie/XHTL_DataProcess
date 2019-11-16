@@ -66,6 +66,9 @@
     <ClInclude Include="I_2U.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -81,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="I_2U.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DO.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

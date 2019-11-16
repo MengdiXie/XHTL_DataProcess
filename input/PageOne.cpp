@@ -62,6 +62,8 @@ void PageOne::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_INPUT6, m_inputstr6);
 	DDX_Text(pDX, IDC_INPUT7, m_inputstr7);
 	DDX_Text(pDX, IDC_INPUT8, m_inputstr8);
+	
+
 
 
 	DDX_Text(pDX, IDC_EDIT1, m_boardnum);
@@ -75,6 +77,9 @@ void PageOne::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Text(pDX, IDC_EDIT6, m_signal_source);
 	DDX_Text(pDX, IDC_EDIT9, m_测试工装);
+
+	DDX_Text(pDX, IDC_EDIT7, m_测试阶段);
+	
 
 }
 
@@ -140,7 +145,7 @@ BOOL PageOne::OnInitDialog()
 	 m_测试工装=_T("20190620-20200619");
 	 m_inputstr2=_T("8,8,8,8,8,8,8,8");
 	 m_inputstr3=_T("2.7,8,8,8,8,8,8,2.7,8,8,8,8,8,2.7,8,8,8,8,8,8,144,8,144,142");
-
+	 m_测试阶段=_T("单板环境试验后");
 
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -887,8 +892,11 @@ void PageOne::OnBnClickedthree()
 	// TODO: 在此添加控件通知处理程序代码
     CoUninitialize(); 
 
-
-	CDialogEx::OnOK();
+	if(AfxMessageBox(_T("您确定要退出当前U-I填表工作，劝君三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
+	{
+		CDialogEx::OnOK();
+	 }
+	
 
 }
 
@@ -1161,6 +1169,8 @@ void PageOne::OnBnClickedButton1()
 	vec_str.push_back(m_constant_volt_source);
 	vec_str.push_back(m_signal_source);
 	vec_str.push_back(m_测试工装);
+	
+	vec_str.push_back(m_测试阶段);
 
 	vec_Pos.push_back(_T("B4"));
     vec_Pos.push_back(_T("B5"));
@@ -1173,6 +1183,7 @@ void PageOne::OnBnClickedButton1()
     vec_Pos.push_back(_T("D14"));
     vec_Pos.push_back(_T("D15"));
     vec_Pos.push_back(_T("D16"));
+	 vec_Pos.push_back(_T("B7"));
 
 
 	for(size_t i=0;i<vec_Pos.size();++i)
@@ -1207,7 +1218,7 @@ void PageOne::OnBnClickedCancel()
 {
 	// TODO: 在此添加控件通知处理程序代码
 
-	if(AfxMessageBox(_T("您确定要退出当前U-I填表工作，请三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
+	if(AfxMessageBox(_T("您确定要退出当前U-I填表工作，劝君三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
 	{
 		CDialogEx::OnCancel();
 	}

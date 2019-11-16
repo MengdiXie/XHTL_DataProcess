@@ -15,6 +15,7 @@
 #include<stdio.h>
 #include  "PageOne.h"
 #include "I_2U.h"
+#include "DO.h"
 
 
 
@@ -26,6 +27,7 @@ BOOL m_closeornot;
 int m_BoardType;
 I_2U * m_i_2udlg;
 PageOne* m_u_idlg;
+DO* m_DOdlg;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -136,11 +138,15 @@ BOOL CinputDlg::OnInitDialog()
 	m_filenum=0;
 	m_inputstring3=_T("环境试验前第一次测试");
 	m_inputstring4.Format(_T("%d"),m_filenum);
-
+	
+	m_Select.AddString(_T("DO"));
 	m_Select.AddString(_T("U-I"));
 	m_Select.AddString(_T("I-2U"));
+	
+	
+	m_Select.SetCurSel(0);
 
-	m_Select.SetCurSel(1);
+	
 	m_i_2udlg=NULL;
 	m_closeornot=TRUE;
 	UpdateData(FALSE);
@@ -727,15 +733,22 @@ void CinputDlg::OnBnClickedStart()
 
 
 		//创建文件
-	    if(nIndex==1)
+	    if(nIndex==UI)
 		{
 	        exstrFolder=strTemp1+CString("sample.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
 			m_inputstring1=_T("0,1,2,3,4,5");
 		}
-		else if(nIndex==0)
+		else if(nIndex==I2U)
 		{
 			 exstrFolder=strTemp1+CString("sample_I_2U.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
 			 m_inputstring1=_T("4,8,12,16,20");
+		}
+		else if(nIndex==D_O)
+		{
+			exstrFolder=strTemp1+CString("sample_DO.xlsx");
+            GetDlgItem(IDOK)->EnableWindow (FALSE);//按钮不可用
+
+
 		}
 	    exfilename=strTemp1+m_inputstring3+CString("\\")+m_inputstring3+CString(".xlsx");
 	   //复制操作
@@ -744,17 +757,25 @@ void CinputDlg::OnBnClickedStart()
 
 	else{
 
-
-               if(nIndex==1)
+               if(nIndex==UI)
 		        {
 	              exstrFolder=strTemp1+CString("sample.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
 				  m_inputstring1=_T("0,1,2,3,4,5");
 		        }
-		        else if(nIndex==0)
+		        else if(nIndex==I2U)
 		       {
 			       exstrFolder=strTemp1+CString("sample_I_2U.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
 				   m_inputstring1=_T("4,8,12,16,20");
 			   }
+			   	else if(nIndex==D_O)
+		       {
+			       exstrFolder=strTemp1+CString("sample_DO.xlsx");
+                   GetDlgItem(IDOK)->EnableWindow (FALSE);//按钮不可用
+                }
+
+
+
+
 		       exfilename=strTemp1+m_inputstring3+CString("\\")+m_inputstring3+CString(".xlsx");
 			   int nRet = _taccess(exfilename, 0);
                int ret_out;
@@ -785,7 +806,7 @@ void CinputDlg::OnBnClickedStart()
 
 	
 	m_BoardType=nIndex;
-	if(nIndex==1)//选择U-I板卡
+	if(nIndex==UI)//选择U-I板卡
 	{
 		
 		if(m_u_idlg!=NULL)
@@ -799,7 +820,7 @@ void CinputDlg::OnBnClickedStart()
 
 	     }
 	}
-	else if(nIndex==0)//选择I-2U板卡
+	else if(nIndex==I2U)//选择I-2U板卡
 	{
 	    //if(m_I_2Udlg.DoModal()==IDOK)
 	    {
@@ -826,6 +847,19 @@ void CinputDlg::OnBnClickedStart()
 	
 	     }
 	}
+	else if(nIndex==D_O)//选择DO板卡
+	{
+		if(m_DOdlg!=NULL)
+		{
+			delete m_DOdlg;
+		}
+		m_DOdlg =new DO;
+	    if(m_DOdlg->DoModal()==IDOK)
+	    {
+
+	     }
+	}
+
 
 
 }
@@ -834,12 +868,23 @@ void CinputDlg::OnBnClickedStart()
 void CinputDlg::OnBnClickedOver()
 {
 	// TODO: 在此添加控件通知处理程序代码
+
+	int nIndex=m_Select.GetCurSel();
+
+	if(nIndex==D_O)
+	{
+		 GetDlgItem(IDOK)->EnableWindow (TRUE);//按钮不可用
+		 GetDlgItem(IDCANCEL)->EnableWindow (TRUE);//按钮不可用
+		 return;
+	}
+
+
 	if(m_countclick<6)
 	{
-	    m_out.clear();
-	    m_str.clear();//清理
-		m_countclick=0;
-		AfxMessageBox(L"输入数据不足6组，请检查!");
+	    //m_out.clear();
+	    //m_str.clear();//清理
+		//m_countclick=0;
+		AfxMessageBox(L"输入数据不足6组，请检查,继续计算拟合!");
 		return;
 	}
 	m_countclick-=6;
@@ -865,8 +910,8 @@ void CinputDlg::OnBnClickedOver()
 	sheets.AttachDispatch(book.get_Worksheets());
 
 
-	int nIndex=m_Select.GetCurSel();
-	if(nIndex==1)//U-I
+	
+	if(nIndex==UI)//U-I
 	{
 
 
@@ -1170,7 +1215,7 @@ void CinputDlg::OnBnClickedOver()
 	 }
 
 	}
-	else if(nIndex==0)//I-2U板卡
+	else if(nIndex==I2U)//I-2U板卡
 	{
 	sheet = sheets.get_Item(COleVariant((short)9));
 	CString str_temp; 
@@ -1414,6 +1459,7 @@ GameOver2:
 	  app.ReleaseDispatch();
 
       GetDlgItem(IDCANCEL)->EnableWindow (TRUE);
+	
 
 
 	  CoUninitialize(); 
