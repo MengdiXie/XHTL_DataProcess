@@ -735,7 +735,7 @@ void CinputDlg::OnBnClickedStart()
 		//创建文件
 	    if(nIndex==UI)
 		{
-	        exstrFolder=strTemp1+CString("sample.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
+	        exstrFolder=strTemp1+CString("sample_U_I.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
 			m_inputstring1=_T("0,1,2,3,4,5");
 		}
 		else if(nIndex==I2U)
@@ -759,7 +759,7 @@ void CinputDlg::OnBnClickedStart()
 
                if(nIndex==UI)
 		        {
-	              exstrFolder=strTemp1+CString("sample.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
+	              exstrFolder=strTemp1+CString("sample_U_I.xlsx");//确定新文件存储路径后，通过拷贝文件的方式，复制表格副本
 				  m_inputstring1=_T("0,1,2,3,4,5");
 		        }
 		        else if(nIndex==I2U)
