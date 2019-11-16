@@ -1,15 +1,10 @@
-﻿生成启动时间为 2019/11/16 20:46:14。
+﻿生成启动时间为 2019/11/16 21:14:16。
      1>项目“C:\Git\input\input\input.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\input.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          所有输出均为最新。
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\input.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt I_2U.cpp inputDlg.cpp
-         I_2U.cpp
-     1>c:\git\input\input\i_2u.cpp(257): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\i_2u.cpp(267): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-         正在生成代码...
-         正在编译...
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\input.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt inputDlg.cpp
          inputDlg.cpp
      1>c:\git\input\input\inputdlg.cpp(253): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
      1>c:\git\input\input\inputdlg.cpp(263): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
@@ -29,9 +24,8 @@
      1>c:\git\input\input\inputdlg.cpp(503): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
      1>c:\git\input\input\inputdlg.cpp(649): warning C4018: “<”: 有符号/无符号不匹配
-         正在生成代码...
        ResourceCompile:
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\input.res" input.rc 
+         所有输出均为最新。
        ManifestResourceCompile:
          所有输出均为最新。
        Link:
@@ -56,4 +50,4 @@
 
 生成成功。
 
-已用时间 00:00:06.71
+已用时间 00:00:05.09

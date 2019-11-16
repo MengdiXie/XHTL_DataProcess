@@ -814,7 +814,13 @@ void CinputDlg::OnBnClickedStart()
 			delete m_u_idlg;
 		}
 		m_u_idlg =new PageOne;
-	    if(m_u_idlg->DoModal()==IDOK)
+
+
+		m_u_idlg->Create(IDD_SHEET1,GetDesktopWindow());
+	    m_u_idlg->ShowWindow(SW_SHOW);
+
+
+	    //if(m_u_idlg->DoModal()==IDOK)
 	    {
 
 
@@ -854,7 +860,13 @@ void CinputDlg::OnBnClickedStart()
 			delete m_DOdlg;
 		}
 		m_DOdlg =new DO;
-	    if(m_DOdlg->DoModal()==IDOK)
+
+		m_DOdlg->Create(IDD_DO,GetDesktopWindow());
+		m_DOdlg->ShowWindow(SW_SHOW);
+
+
+
+	    //if(m_DOdlg->DoModal()==IDOK)
 	    {
 
 	     }
