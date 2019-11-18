@@ -139,9 +139,11 @@ BOOL CinputDlg::OnInitDialog()
 	m_inputstring3=_T("环境试验前第一次测试");
 	m_inputstring4.Format(_T("%d"),m_filenum);
 	
+
 	m_Select.AddString(_T("DO"));
 	m_Select.AddString(_T("U-I"));
 	m_Select.AddString(_T("I-2U"));
+	m_Select.AddString(_T("信号调理单机"));
 	
 	
 	m_Select.SetCurSel(0);

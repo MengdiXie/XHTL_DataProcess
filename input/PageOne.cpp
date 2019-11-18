@@ -807,6 +807,12 @@ void PageOne::OnBnClickedthree()
 	vec_str.push_back(strtime);
 	vec_str.push_back(_T("合格√ 不合格"));
 
+	for(size_t i=0;i<9;i++)
+	{
+		vec_str.push_back(_T("√"));
+	}
+
+
 
 	vec_Pos.push_back(_T("K4"));
 	vec_Pos.push_back(_T("K5"));
@@ -822,6 +828,20 @@ void PageOne::OnBnClickedthree()
 	vec_Pos.push_back(_T("G13"));
 
 	vec_Pos.push_back(_T("K13"));
+
+
+	vec_Pos.push_back(_T("L4"));
+	vec_Pos.push_back(_T("L5"));
+	vec_Pos.push_back(_T("L6"));
+	vec_Pos.push_back(_T("L7"));
+	vec_Pos.push_back(_T("L8"));
+	vec_Pos.push_back(_T("L9"));
+	vec_Pos.push_back(_T("L10"));
+	vec_Pos.push_back(_T("L11"));
+	vec_Pos.push_back(_T("L12"));
+
+
+
 
 
 
