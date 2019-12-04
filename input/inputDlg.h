@@ -24,7 +24,7 @@ public:
 // 对话框数据
 	enum { IDD = IDD_INPUT_DIALOG };
 
-	enum {D_O=0,I2U=1,UI=2};
+	enum {D_O=0,I2U=1,UI=2,XHTL_ID=3};
 
 	CString m_inputstring1;
 	CString m_inputstring2;
@@ -77,6 +77,9 @@ public:
 	CBrush m_Brush;
 
 	int m_countclick;//记录输入数据时，对输入进行校验
+
+
+	BOOL m_saveclick;
 
 
 	std::vector<float> m_tempv1;

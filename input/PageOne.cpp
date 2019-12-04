@@ -742,8 +742,8 @@ void PageOne::OnBnClickedthree()
 	vec_str.push_back(_T("合格√ 不合格"));
 	
 	vec_Pos.push_back(_T("F4"));
-	vec_Pos.push_back(_T("F5"));
 	vec_Pos.push_back(_T("K4"));
+	vec_Pos.push_back(_T("F5"));	
 	vec_Pos.push_back(_T("K5"));
 
 	vec_Pos.push_back(_T("L4"));
@@ -912,10 +912,7 @@ void PageOne::OnBnClickedthree()
 	// TODO: 在此添加控件通知处理程序代码
     CoUninitialize(); 
 
-	if(AfxMessageBox(_T("您确定要退出当前U-I填表工作，劝君三思而行!"),MB_YESNO|MB_ICONEXCLAMATION)==IDYES)
-	{
-		CDialogEx::OnOK();
-	 }
+
 	
 
 }

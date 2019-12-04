@@ -1625,7 +1625,16 @@ DWORD I_2U::Button9Thread(LPVOID lpParam)
 	for(size_t i=0;i<vec_float.size();i++)
 	{
 
-		str_temp.Format(_T("%f"),vec_float[i]);
+		str_temp.Format(_T("%.3f"),vec_float[i]);
+		if(i<2 || (i>7 && i<=9) ||i>=16)
+		{
+			str_temp+=_T("V");
+		}
+		else
+		{
+			str_temp+=_T("mV");
+		}
+
 		vec_str.push_back(str_temp);
 	    str_temp=_T("");
 	}//将填入数读取

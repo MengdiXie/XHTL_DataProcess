@@ -16,6 +16,8 @@
 #include  "PageOne.h"
 #include "I_2U.h"
 #include "DO.h"
+#include "XHTL.h"
+#include "XHTL_ALL.h"
 
 
 
@@ -28,6 +30,9 @@ int m_BoardType;
 I_2U * m_i_2udlg;
 PageOne* m_u_idlg;
 DO* m_DOdlg;
+XHTL* m_XHTLdlg;
+XHTL_ALL* m_XHTL_ALLdlg;
+CString m_externinputfilename;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -144,6 +149,7 @@ BOOL CinputDlg::OnInitDialog()
 	m_Select.AddString(_T("U-I"));
 	m_Select.AddString(_T("I-2U"));
 	m_Select.AddString(_T("信号调理单机"));
+
 	
 	
 	m_Select.SetCurSel(0);
@@ -155,7 +161,7 @@ BOOL CinputDlg::OnInitDialog()
 	
 	strFolder=_T("C:\\信号调理组合\\试验测试");
 	m_getdata=TRUE;
-
+	m_saveclick=FALSE;
 	 my_Font.CreatePointFont(140, L"Times NewRoman");//创建字体和大小
 
 	 m_Brush.CreateSolidBrush(RGB(53,203,60));
@@ -167,8 +173,14 @@ BOOL CinputDlg::OnInitDialog()
 	 m_countclick=0;//初始化
 	 m_pictureok=FALSE;
 
+	
+
 	m_BoardType=1;//默认U-I板卡
 	InitEdit();
+
+	 UpdateData(TRUE);
+	 m_externinputfilename=m_inputstring3;
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -405,22 +417,22 @@ void CinputDlg::CalData(FILE * fileID,std::vector<float> v1,std::vector<float> v
 	if(b[0]>=0 && b[1]>=0)
 	{
 		strtemp.Format(_T("Fitted curve function:y=%f+%fx\n\n"),b[0],b[1]);
-		outstr.Format(_T("y=%.5f+%.5fx"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f+%.4fx"),b[0],b[1]);
 	}
 	else if(b[0]>=0 && b[1]<0)
 	{
 		strtemp.Format(_T("Fitted curve function:y=%f%fx\n\n"),b[0],b[1]);
-		outstr.Format(_T("y=%.5f%.5fx"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f%.4fx"),b[0],b[1]);
 	}
 	else if(b[0]<0 && b[1]<0)
 	{
 		strtemp.Format(_T("Fitted curve function:y=%f%fx\n\n"),b[0],b[1]);
-		outstr.Format(_T("y=%.5f%.5fx"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f%.4fx"),b[0],b[1]);
 	}
 	else if(b[0]<0 && b[1]>=0)
 	{
 		strtemp.Format(_T("Fitted curve function:y=%f+%fx\n\n"),b[0],b[1]);
-		outstr.Format(_T("y=%.5f+%.5fx"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f+%.4fx"),b[0],b[1]);
 	}
     EditShowData(strtemp);
 
@@ -540,6 +552,7 @@ void CinputDlg::OnBnClickedCancel()
 	CString strTemp1("C:\\信号调理组合\\");
 	m_filenum=0;//归零
 	strFolder=strTemp1+m_inputstring3;
+
 	strTemp2=strFolder+CString(_T("\\*.txt"));
 	memcpy(m_Rfilename,(char*)T2A(strTemp2.GetBuffer(0)),100);
 	if(!PathFileExists(strFolder))//文件夹不存在则创建
@@ -722,6 +735,17 @@ void CinputDlg::OnBnClickedcolse()
 
 void CinputDlg::OnBnClickedStart()
 {
+	if(m_saveclick==FALSE)
+	{
+		m_saveclick=TRUE;
+	}
+	else
+	{
+		AfxMessageBox(_T("您已经在前表中，请先确认已经点击“结束填表”！！"));
+		return;
+	}
+
+
 	// TODO: 在此添加控件通知处理程序代码
 	GetDlgItem(IDCANCEL)->EnableWindow (FALSE);//按钮不可用
 	UpdateData(TRUE);
@@ -752,6 +776,15 @@ void CinputDlg::OnBnClickedStart()
 
 
 		}
+		else if(nIndex==XHTL_ID)
+		{
+			exstrFolder=strTemp1+CString("sample_XHTL_ALL.xlsx");
+            GetDlgItem(IDOK)->EnableWindow (FALSE);//按钮不可用
+
+
+		}
+
+
 	    exfilename=strTemp1+m_inputstring3+CString("\\")+m_inputstring3+CString(".xlsx");
 	   //复制操作
 	   CopyFile(exstrFolder,exfilename,FALSE);
@@ -774,6 +807,11 @@ void CinputDlg::OnBnClickedStart()
 			       exstrFolder=strTemp1+CString("sample_DO.xlsx");
                    GetDlgItem(IDOK)->EnableWindow (FALSE);//按钮不可用
                 }
+				else if(nIndex==XHTL_ID)
+		        {
+			       exstrFolder=strTemp1+CString("sample_XHTL_ALL.xlsx");
+                   GetDlgItem(IDOK)->EnableWindow (FALSE);//按钮不可用
+		}
 
 
 
@@ -863,15 +901,20 @@ void CinputDlg::OnBnClickedStart()
 		}
 		m_DOdlg =new DO;
 
-		m_DOdlg->Create(IDD_DO,GetDesktopWindow());
+	
+	    m_DOdlg->Create(IDD_DO,GetDesktopWindow());
 		m_DOdlg->ShowWindow(SW_SHOW);
-
-
-
-	    //if(m_DOdlg->DoModal()==IDOK)
-	    {
-
-	     }
+	}
+	else if(nIndex==XHTL_ID)
+	{
+		m_externinputfilename=m_inputstring3;
+		if(m_XHTL_ALLdlg!=NULL)
+		{
+			delete m_XHTL_ALLdlg;
+		}
+		m_XHTL_ALLdlg=new XHTL_ALL;
+		m_XHTL_ALLdlg->Create(IDD_XHTLALL,GetDesktopWindow());
+		m_XHTL_ALLdlg->ShowWindow(SW_SHOW);
 	}
 
 
@@ -882,6 +925,16 @@ void CinputDlg::OnBnClickedStart()
 void CinputDlg::OnBnClickedOver()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if(m_saveclick==TRUE)
+	{
+		
+	}
+	else
+	{
+		AfxMessageBox(_T("目前没有填表操作，请先点击”开始填表“！！"));
+		return;
+	}
+
 
 	int nIndex=m_Select.GetCurSel();
 
@@ -891,6 +944,20 @@ void CinputDlg::OnBnClickedOver()
 		 GetDlgItem(IDCANCEL)->EnableWindow (TRUE);//按钮不可用
 		 return;
 	}
+
+	if(nIndex==XHTL_ID)
+	{
+
+		GetDlgItem(IDOK)->EnableWindow (TRUE);//按钮不可用
+	    GetDlgItem(IDCANCEL)->EnableWindow (TRUE);//按钮不可用
+		m_saveclick=FALSE;
+
+		return;
+
+	}
+
+
+
 
 
 	if(m_countclick<6)
@@ -1478,7 +1545,7 @@ GameOver2:
 
 	  CoUninitialize(); 
 
-
+	  m_saveclick=FALSE;
 
 }
 

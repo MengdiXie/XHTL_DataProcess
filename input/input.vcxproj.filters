@@ -69,6 +69,12 @@
     <ClInclude Include="DO.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="XHTL.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XHTL_ALL.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -87,6 +93,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DO.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XHTL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XHTL_ALL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
