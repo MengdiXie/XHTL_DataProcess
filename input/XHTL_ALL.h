@@ -60,6 +60,8 @@ public:
 	int m_filenum;
 	FILE * outFileID;
 
+	std::vector<float> m_deta;
+
 	std::vector<float> CStringtoFloat(CString m_s);
     void getData(char * filename,std::vector<float> v1,std::vector<float> v2);
 
@@ -76,4 +78,16 @@ public:
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButton11();
 	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedButton4();
+
+
+	afx_msg void OnRadioButton_Clicked_1();
+	afx_msg void OnRadioButton_Clicked_2();
+
+	afx_msg void OnRadioButton_Clicked_3();
+	afx_msg void OnRadioButton_Clicked_4();
+
+
+	afx_msg void OnComboxButton_Clicked_1();
+	afx_msg void OnComboxButton_Clicked_2();
 };

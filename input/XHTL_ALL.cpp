@@ -62,11 +62,108 @@ BEGIN_MESSAGE_MAP(XHTL_ALL, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &XHTL_ALL::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON11, &XHTL_ALL::OnBnClickedButton11)
 	ON_BN_CLICKED(IDCANCEL, &XHTL_ALL::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_BUTTON4, &XHTL_ALL::OnBnClickedButton4)
+	ON_BN_CLICKED(IDC_62102,&XHTL_ALL::OnRadioButton_Clicked_1)
+	ON_BN_CLICKED(IDC_62103,&XHTL_ALL::OnRadioButton_Clicked_2)
+	ON_CBN_SELCHANGE(IDC_COMBO1,&XHTL_ALL::OnComboxButton_Clicked_1)
+	ON_BN_CLICKED(IDC_62104,&XHTL_ALL::OnRadioButton_Clicked_3)
+	ON_BN_CLICKED(IDC_62105,&XHTL_ALL::OnRadioButton_Clicked_4)
+	ON_CBN_SELCHANGE(IDC_COMBO2,&XHTL_ALL::OnComboxButton_Clicked_2)
+
 END_MESSAGE_MAP()
 
 
 // XHTL_ALL 消息处理程序
 
+void XHTL_ALL::OnRadioButton_Clicked_1()
+{
+	//MessageBox(_T("hello word!"));
+	UpdateData(TRUE);
+	if(m_checkbox1==TRUE)
+	{
+		m_checkbox2=FALSE;
+		
+	}
+	else if(m_checkbox1==FALSE)
+	{
+		m_checkbox2=TRUE;
+		
+	}
+	m_IDC_EDIT8=_T("");
+	m_IDC_EDIT9=_T("");
+
+	UpdateData(FALSE);
+}
+void XHTL_ALL::OnRadioButton_Clicked_2()
+{
+	//MessageBox(_T("hello word!"));
+	UpdateData(TRUE);
+	if(m_checkbox2==TRUE)
+	{
+		m_checkbox1=FALSE;
+		
+	}
+	else if(m_checkbox2==FALSE)
+	{
+		m_checkbox1=TRUE;
+		
+	}
+	m_IDC_EDIT9=_T("");
+	m_IDC_EDIT8=_T("");
+
+	UpdateData(FALSE);
+}
+void XHTL_ALL::OnRadioButton_Clicked_3()
+{
+	//MessageBox(_T("hello word!"));
+	UpdateData(TRUE);
+	if(m_checkbox3==TRUE)
+	{
+		m_checkbox4=FALSE;
+		m_IDC_EDIT14=_T("");
+	}
+	else if(m_checkbox3==FALSE)
+	{
+		m_checkbox4=TRUE;
+		m_IDC_EDIT14=_T("");
+	}
+
+	UpdateData(FALSE);
+}
+
+void XHTL_ALL::OnRadioButton_Clicked_4()
+{
+	//MessageBox(_T("hello word!"));
+	UpdateData(TRUE);
+	if(m_checkbox4==TRUE)
+	{
+		m_checkbox3=FALSE;
+		m_IDC_EDIT14=_T("");
+	}
+	else if(m_checkbox4==FALSE)
+	{
+		m_checkbox3=TRUE;
+		m_IDC_EDIT14=_T("");
+	}
+
+	UpdateData(FALSE);
+}
+
+void XHTL_ALL::OnComboxButton_Clicked_1()
+{
+	UpdateData(TRUE);
+	m_IDC_EDIT8=_T("");
+	m_IDC_EDIT9=_T("");
+    UpdateData(FALSE);
+}
+
+void XHTL_ALL::OnComboxButton_Clicked_2()
+{
+	UpdateData(TRUE);
+	m_IDC_EDIT14=_T("");
+    UpdateData(FALSE);
+
+}
 
 BOOL XHTL_ALL::OnInitDialog()
 {
@@ -86,7 +183,7 @@ BOOL XHTL_ALL::OnInitDialog()
 	 m_IDC_EDIT10=_T("环境试验后");
 	 COleDateTime t = COleDateTime::GetCurrentTime();
 
-
+	   GetDlgItem(IDC_BUTTON4)->EnableWindow (FALSE);//按钮不可用
 
 	 
 	 m_strtime= t.Format(_T("%Y/%m/%d"));//打印填表日期
@@ -203,6 +300,7 @@ HBRUSH XHTL_ALL::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void XHTL_ALL::OnBnClickedButton2()
 {
 	// TODO: 在此添加控件通知处理程序代码
+
 	UpdateData(TRUE);
 	CString m_strpos;
 	CString m_strpostemp;
@@ -213,8 +311,9 @@ void XHTL_ALL::OnBnClickedButton2()
 	int nIndex=m_Select1.GetCurSel();
 	vec_strpos.clear();
 				           vec_strpos.push_back(_T("G"));
-						   vec_strpos.push_back(_T("H"));
-						   vec_strpos.push_back(_T("I"));
+						   //vec_strpos.push_back(_T("H"));
+						   //vec_strpos.push_back(_T("I"));
+	m_deta.clear();
 	if(m_checkbox1==TRUE||m_checkbox2==TRUE)
 	{
 		if(m_checkbox1==TRUE && m_checkbox2==TRUE)
@@ -359,8 +458,11 @@ void XHTL_ALL::OnBnClickedButton2()
 			 for(size_t i=0;i<vec_float1.size();i++)
 			 {
 				 m_strtemp.Format(_T("%.4f"),vec_float1[i]);
+				 m_deta.push_back(vec_float1[i]);
 				 vec_str.push_back(m_strtemp);
 			 }
+
+#if 0
 			 vec_float2=CStringtoFloat(m_IDC_EDIT9);
 			 for(size_t i=0;i<vec_float2.size();i++)
 			 {
@@ -372,7 +474,7 @@ void XHTL_ALL::OnBnClickedButton2()
 				m_strtemp.Format(_T("%.4f"),vec_float1[i]-vec_float2[i]);
 				vec_str.push_back(m_strtemp);
 			}
-
+#endif
 			if(vec_str.size()!=vec_Pos.size())
 			{
 				MessageBox(_T("带载测量值与空载值数量不等，请君仔细检查！！"));
@@ -428,7 +530,7 @@ void XHTL_ALL::OnBnClickedButton2()
 	app.ReleaseDispatch();
 
 
-
+	 GetDlgItem(IDC_BUTTON4)->EnableWindow (TRUE);//按钮不可用
 	}
 	else
 	{
@@ -1513,5 +1615,252 @@ void XHTL_ALL::OnBnClickedCancel()
 	{
 		CDialogEx::OnCancel();
 	}
+
+}
+
+
+void XHTL_ALL::OnBnClickedButton4()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	
+	UpdateData(TRUE);
+	CString m_strpos;
+	CString m_strpostemp;
+	std::vector<CString> vec_strpos;
+	std::vector<CString> vec_str;
+	std::vector<CString> vec_Pos;
+	std::vector<float> vec_float1,vec_float2,vec_float3;
+	int nIndex=m_Select1.GetCurSel();
+	vec_strpos.clear();
+				           //vec_strpos.push_back(_T("G"));
+						   vec_strpos.push_back(_T("H"));
+						   vec_strpos.push_back(_T("I"));
+	if(m_checkbox1==TRUE||m_checkbox2==TRUE)
+	{
+		if(m_checkbox1==TRUE && m_checkbox2==TRUE)
+		{
+			MessageBox(_T("不能同时选择连接器插头621-02和621-03!!"));
+			return;
+		}
+		
+		if(m_checkbox1==TRUE)
+		{
+
+			vec_str.clear();
+			vec_Pos.clear();
+			vec_float1.clear();
+			vec_float2.clear();
+			vec_float3.clear();
+			switch(nIndex)
+			{
+
+				case 0:  {
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=5;i<10;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;}
+				case 1:{
+
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=10;i<15;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;
+					   }
+				case 2:{
+
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=15;i<20;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;
+					   }
+				case 3:{
+
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=20;i<25;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;
+					   }
+				default: break;
+			}
+		}
+
+
+		if(m_checkbox2==TRUE)
+		{
+
+			vec_str.clear();
+			vec_Pos.clear();
+			vec_float1.clear();
+			vec_float2.clear();
+			vec_float3.clear();
+			switch(nIndex)
+			{
+
+				case 0:  {
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=28;i<33;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;}
+				case 1:{
+
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=33;i<38;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;
+					   }
+				case 2:{
+
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=38;i<43;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;
+					   }
+				case 3:{
+
+					       for(size_t j=0;j<vec_strpos.size();j++)
+						   {
+					           for(size_t i=43;i<48;i++)
+						      {
+					             m_strpostemp.Format(_T("%d"),i);
+								 m_strpos=vec_strpos[j]+m_strpostemp;
+								 vec_Pos.push_back(m_strpos);
+							  }
+						   }
+						   break;
+					   }
+				default: break;
+			}
+			}
+
+			 CString m_strtemp;
+			 vec_float1=CStringtoFloat(m_IDC_EDIT9);
+			 for(size_t i=0;i<vec_float1.size();i++)
+			 {
+				 m_strtemp.Format(_T("%.4f"),vec_float1[i]);
+				 vec_str.push_back(m_strtemp);
+			 }
+
+#if 0
+			 vec_float2=CStringtoFloat(m_IDC_EDIT9);
+			 for(size_t i=0;i<vec_float2.size();i++)
+			 {
+				 m_strtemp.Format(_T("%.4f"),vec_float2[i]);
+				 vec_str.push_back(m_strtemp);
+			 }
+#endif
+			for(size_t i=0;i<vec_float1.size();i++)
+			{
+				m_strtemp.Format(_T("%.4f"),m_deta[i]-vec_float1[i]);
+				vec_str.push_back(m_strtemp);
+			}
+
+			if(vec_str.size()!=vec_Pos.size())
+			{
+				MessageBox(_T("带载测量值与空载值数量不等，请君仔细检查！！"));
+				return;
+			}
+
+		
+
+			HRESULT hr = ::CoInitializeEx( NULL, COINIT_MULTITHREADED );
+	        COleVariant vResult;
+	        COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+	        if(!app.CreateDispatch(L"Excel.Application"))
+	        {
+	          AfxMessageBox(L"无法启动Excel服务器!");
+	        return;
+	        }
+	        books.AttachDispatch(app.get_Workbooks());
+	        lpDisp = books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
+	    	covOptional, covOptional, covOptional, covOptional);
+
+	
+	
+	//得到Workbook
+	book.AttachDispatch(lpDisp);
+	//得到Worksheets
+	sheets.AttachDispatch(book.get_Worksheets());
+
+	sheet = sheets.get_Item(COleVariant((short)4));
+
+
+	for(size_t i=0;i<vec_Pos.size();++i)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+	    range.put_Value(vtMissing, COleVariant(vec_str[i]));
+	}
+
+
+    app.put_Visible(TRUE);
+	book.Save();
+	book.put_Saved(TRUE);
+
+
+	books.Close(); 
+    app.Quit();  			// 退出
+	//释放对象  
+	range.ReleaseDispatch();
+	sheet.ReleaseDispatch();
+	sheets.ReleaseDispatch();
+	book.ReleaseDispatch();
+	books.ReleaseDispatch();
+	app.ReleaseDispatch();
+
+
+
+	}
+	else
+	{
+		MessageBox(_T("请选择连接器插头621-02或621-03!!"));
+	}
+
+
+
+
+
 
 }

@@ -57,6 +57,10 @@ public:
     LPDISPATCH lpDisp;
 
 	std::vector<float> CStringtoFloat(CString m_s);
+	void ReloadData();//回读数据
+	CString VariantToString(VARIANT var);
+	
+
 // 对话框数据
 	enum { IDD = IDD_I_2U };
 

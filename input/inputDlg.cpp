@@ -93,6 +93,7 @@ void CinputDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT6, m_edit);
 	DDX_Control(pDX, IDC_WAVE_DRAW, m_picDraw);
 	DDX_Control(pDX,IDC_Select,m_Select);
+	DDX_Control(pDX,IDC_Select2,m_Select2);
 }
 
 BEGIN_MESSAGE_MAP(CinputDlg, CDialogEx)
@@ -105,10 +106,234 @@ BEGIN_MESSAGE_MAP(CinputDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_Start, &CinputDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_Over, &CinputDlg::OnBnClickedOver)
 	ON_WM_CTLCOLOR()
+	ON_BN_CLICKED(IDC_colse2, &CinputDlg::OnBnClickedcolse2)
+	ON_CBN_SELCHANGE(IDC_Select2,&CinputDlg::OnSelectEvent)
+	ON_BN_CLICKED(IDC_colse3, &CinputDlg::OnBnClickedcolse3)
 END_MESSAGE_MAP()
 
 
+
+CString CinputDlg::VariantToString(VARIANT var)
+{
+	CString strValue;
+	_variant_t var_t;
+	_bstr_t bstr_t;
+
+	COleCurrency var_currency;
+	switch(var.vt)
+	{
+		case VT_EMPTY:
+		case VT_NULL: strValue=_T("");break;
+		case VT_UI1:strValue.Format(_T("%d"),var.bVal);break;//bool
+		case VT_I2:strValue.Format(_T("%d"),var.iVal);break;//int
+		case VT_I4:strValue.Format(_T("%d"),var.lVal);break;//long
+		case VT_R4:strValue.Format(_T("%f"),var.fltVal);break;//float
+		case VT_R8:strValue.Format(_T("%f"),var.dblVal);break;//double
+		case VT_CY:
+			var_currency=var;
+			strValue=var_currency.Format(0);break;
+		case VT_BSTR:
+			{
+			var_t =var;
+			bstr_t=var_t;
+			//strValue.Format(_T("%s"),(const char*)bstr_t);break;
+			CString temp= CString(var.bstrVal);strValue=temp;break;
+			}
+		case VT_DATE:
+			{
+				CTime myTime(((COleDateTime)var).GetYear(),
+					((COleDateTime)var).GetMonth(),
+					((COleDateTime)var).GetDay(),
+					((COleDateTime)var).GetHour(),
+				((COleDateTime)var).GetMinute(),
+					((COleDateTime)var).GetSecond());
+				strValue=myTime.Format(_T("%Y/%m/%d"));
+			}
+			break;
+		case VT_BOOL:
+			strValue.Format(_T("%d"),var.boolVal);break;
+
+		default:strValue=_T("");break;
+	}
+
+	return strValue;
+}
+
 // CinputDlg 消息处理程序
+void CinputDlg::OnSelectEvent()
+{
+	if(m_saveclick==TRUE)
+	{
+		
+	}
+	else
+	{
+		AfxMessageBox(_T("目前没有填表操作，请先点击”开始填表“！！"));
+		return;
+	}
+	HRESULT hr = ::CoInitializeEx( NULL, COINIT_MULTITHREADED );
+
+	std::vector<CString> vec_Pos;
+	std::vector<CString> vec_loadstr;
+	vec_Pos.clear();
+    vec_loadstr.clear();
+	m_inputstring2=_T("");
+	COleVariant vResult;
+	CString strout;
+	VARIANT re_out;
+	COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+	if(!app.CreateDispatch(L"Excel.Application"))
+	{
+	    AfxMessageBox(L"无法启动Excel服务器!");
+	    return;
+	}
+	books.AttachDispatch(app.get_Workbooks());
+	lpDisp = books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
+		covOptional, covOptional, covOptional, covOptional);
+
+	
+	
+	//得到Workbook
+	book.AttachDispatch(lpDisp);
+	//得到Worksheets
+	sheets.AttachDispatch(book.get_Worksheets());
+	sheet = sheets.get_Item(COleVariant((short)9));
+	
+
+
+	int nIndex=m_Select2.GetCurSel();
+
+	switch(nIndex)
+	{
+	   case Data_I_2U_ch1:
+		   {
+			   vec_Pos.push_back(_T("I4"));vec_Pos.push_back(_T("I5"));vec_Pos.push_back(_T("I6"));
+			   vec_Pos.push_back(_T("I7"));vec_Pos.push_back(_T("I8"));
+
+			   break;
+		   }
+	   case Data_I_2U_ch2:
+		   {
+			   vec_Pos.push_back(_T("I10"));
+			   vec_Pos.push_back(_T("I11"));
+			   vec_Pos.push_back(_T("I12"));
+			   vec_Pos.push_back(_T("I13"));
+			   vec_Pos.push_back(_T("I14"));
+
+			   break;
+		   }
+	   case Data_I_2U_ch3:
+		   {
+			   vec_Pos.push_back(_T("I16"));
+			   vec_Pos.push_back(_T("I17"));
+			   vec_Pos.push_back(_T("I18"));
+			   vec_Pos.push_back(_T("I19"));
+			   vec_Pos.push_back(_T("I20"));
+
+			   break;
+		   }
+	   case Data_I_2U_ch4:
+		   {
+			   vec_Pos.push_back(_T("I22"));
+			   vec_Pos.push_back(_T("I23"));
+			   vec_Pos.push_back(_T("I24"));
+			   vec_Pos.push_back(_T("I25"));
+			   vec_Pos.push_back(_T("I26"));
+
+			   break;
+		   }
+	   case Data_I_2U_ch5:
+		   {
+			   vec_Pos.push_back(_T("I28"));
+			   vec_Pos.push_back(_T("I29"));
+			   vec_Pos.push_back(_T("I30"));
+			   vec_Pos.push_back(_T("I31"));
+			   vec_Pos.push_back(_T("I32"));
+
+			   break;
+		   }
+	   case Data_I_2U_ch6:
+		   {
+			   vec_Pos.push_back(_T("I34"));
+			   vec_Pos.push_back(_T("I35"));
+			   vec_Pos.push_back(_T("I36"));
+			   vec_Pos.push_back(_T("I37"));
+			   vec_Pos.push_back(_T("I38"));
+
+			   break;
+		   }
+
+	   default: break;
+
+
+
+
+	}
+
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	int empty_count=0;
+	CString strf_temp;
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+         strf_temp.Format(_T("%.4f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_inputstring2+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_inputstring2+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_inputstring2+=strf_temp;
+			  else
+			  {
+				  m_inputstring2+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_inputstring2=_T("");
+
+
+	UpdateData(FALSE);
+
+
+	books.Close(); 
+    app.Quit();  			// 退出
+	//释放对象  
+	range.ReleaseDispatch();
+	sheet.ReleaseDispatch();
+	sheets.ReleaseDispatch();
+	book.ReleaseDispatch();
+	books.ReleaseDispatch();
+	app.ReleaseDispatch();
+
+
+	CoUninitialize(); 
+
+
+}
+
+
+
 
 BOOL CinputDlg::OnInitDialog()
 {
@@ -154,6 +379,15 @@ BOOL CinputDlg::OnInitDialog()
 	
 	m_Select.SetCurSel(0);
 
+
+	m_Select2.AddString(_T("I_2U_CH1"));
+	m_Select2.AddString(_T("I_2U_CH2"));
+	m_Select2.AddString(_T("I_2U_CH3"));
+	m_Select2.AddString(_T("I_2U_CH4"));
+	m_Select2.AddString(_T("I_2U_CH5"));
+	m_Select2.AddString(_T("I_2U_CH6"));
+	m_Select2.SetCurSel(0);
+
 	
 	m_i_2udlg=NULL;
 	m_closeornot=TRUE;
@@ -177,6 +411,12 @@ BOOL CinputDlg::OnInitDialog()
 
 	m_BoardType=1;//默认U-I板卡
 	InitEdit();
+
+	 WRfilename("C:\\信号调理组合\\最近打开文件名.txt",false,m_historyname);//首先读取历史文件名
+	 CString chartocstring(m_historyname);
+	 m_inputstring3=chartocstring;
+	 UpdateData(FALSE);
+
 
 	 UpdateData(TRUE);
 	 m_externinputfilename=m_inputstring3;
@@ -473,6 +713,168 @@ void CinputDlg::CalData(FILE * fileID,std::vector<float> v1,std::vector<float> v
 
 }
 
+void CinputDlg:: CalData_02(FILE * fileID,std::vector<float> v1,std::vector<float> v2,std::vector<float> &out_vec,std::vector<CString> &str_out)
+{
+	for(size_t i=0;i<v2.size();i++)
+		   out_vec.push_back(v2[i]);
+
+
+	//double* x=(double*)malloc(sizeof(double)*v1.size());
+	//double* y=(double*)malloc(sizeof(double)*v2.size());
+	CString strtemp;
+	CString strnum;
+	double atemp[2*(rank+1)]={0},b[rank+1]={0},a[rank+1][rank+1];
+
+	int i,j,k;
+
+	for(i=0;i<v1.size();i++)
+	{
+		atemp[1]+=v1[i];
+		atemp[2]+=pow(v1[i],2);
+#if 0
+		atemp[3]+=pow(v1[i],3);
+		atemp[4]+=pow(v1[i],4);
+		atemp[5]+=pow(v1[i],5);
+		atemp[6]+=pow(v1[i],6);
+#endif
+		b[0]+=v2[i];
+		b[1]+=v2[i]*v1[i];
+#if 0
+		b[2]+=pow(v1[i],2)*v2[i];
+		b[3]+=pow(v1[i],3)*v2[i];
+#endif
+
+	}
+	atemp[0]=v1.size();
+
+	for(i=0;i<rank+1;i++)
+	{
+		k=i;
+		for(j=0;j<rank+1;j++)
+			a[i][j]=atemp[k++];
+	}
+
+	//以下高斯列主消元法
+	for(k=0;k<rank+1-1;k++)
+	{
+		int colnum=k;
+		double mainelement=a[k][k];
+
+		for(i=k;i<rank+1;i++)
+		{
+			if(fabs(a[i][k])>mainelement)
+			{
+				mainelement=fabs(a[i][k]);
+				colnum=i;
+			}
+		}
+		for(j=k;j<rank+1;j++)
+		{
+			double atemp1=a[k][j];
+			a[k][j]=a[colnum][j];
+			a[colnum][j]=atemp1;
+		}
+
+		double btemp=b[k];
+		b[k]=b[colnum];
+		b[colnum]=btemp;
+
+		for(i=k+1;i<rank+1;i++)
+		{
+			double Mik=a[i][k]/a[k][k];
+			for(j=k;j<rank+1;j++)
+				a[i][j]-=Mik*a[k][j];
+			b[i]-=Mik*b[k];
+		}
+
+		b[rank+1-1]/=a[rank+1-1][rank+1-1];
+		for(i=rank+1-2;i>=0;i--)
+		{
+			double sum=0;
+			for(j=i+1;j<rank+1;j++)
+				sum+=a[i][j]*b[j];
+			b[i]=(b[i]-sum)/a[i][i];
+		}
+	}
+
+	//fprintf(fileID,"P(x)=%f%+fx%+fx^2%+fx^3\n\n",b[0],b[1],b[2],b[3]);
+	fprintf(fileID,"%s[%d]!-------------\r\n\n",">>>>-----------Result of Data",m_filenum);
+	strtemp.Format(_T("%s[%d]!---------------\r\n\n"),_T("---------------Result of Data"),m_filenum);
+	EditShowData(strtemp);
+
+	for(i=0;i<v1.size();i++)
+	{
+		fprintf(fileID,"%s%d=%f,detaY=%f\r\n","Fitted Value NO.",i,v1[i]*b[1]+b[0],v2[i]-(v1[i]*b[1]+b[0]));
+		strtemp.Format(_T("%s%d=%f,detaY=%f\r\n"),_T("Fitted Value NO."),i,v1[i]*b[1]+b[0],v2[i]-(v1[i]*b[1]+b[0]));
+	    EditShowData(strtemp);
+
+		out_vec.push_back(v1[i]*b[1]+b[0]);
+		out_vec.push_back(v2[i]-(v1[i]*b[1]+b[0]));
+
+	}
+
+	fprintf(fileID,"%s\r\n","-----------------------------------");
+	fprintf(fileID,"Fitted curve function:y=%f%+fx%\n\n",b[0],b[1]);
+	strtemp.Format(_T("%s\r\n"),_T("-----------------------------------"));
+    EditShowData(strtemp);
+	CString outstr;
+	if(b[0]>=0 && b[1]>=0)
+	{
+		strtemp.Format(_T("Fitted curve function:y=%f+%fx\n\n"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f+%.4fx"),b[0],b[1]);
+	}
+	else if(b[0]>=0 && b[1]<0)
+	{
+		strtemp.Format(_T("Fitted curve function:y=%f%fx\n\n"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f%.4fx"),b[0],b[1]);
+	}
+	else if(b[0]<0 && b[1]<0)
+	{
+		strtemp.Format(_T("Fitted curve function:y=%f%fx\n\n"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f%.4fx"),b[0],b[1]);
+	}
+	else if(b[0]<0 && b[1]>=0)
+	{
+		strtemp.Format(_T("Fitted curve function:y=%f+%fx\n\n"),b[0],b[1]);
+		outstr.Format(_T("y=%.4f+%.4fx"),b[0],b[1]);
+	}
+    EditShowData(strtemp);
+
+	str_out.push_back(outstr);//将拟合公式压入缓存
+
+	std::vector<double> detay;
+
+	for(i=0;i<v1.size();i++)
+	{
+		detay.push_back(abs(b[1]*v1[i]+b[0]-v2[i])/sqrt(b[1]*b[1]+b[0]*b[0]));
+	}
+
+	fprintf(fileID,"Linearity=%f\r\n",(*max_element(detay.begin(),detay.end()))/(*max_element(v2.begin(),v2.end())));//计算线性度
+	fprintf(fileID,"%s\r\n","-----------------------------------<<<<");
+	strtemp.Format(_T("    Linearity=%f\r\n"),(*max_element(detay.begin(),detay.end()))/(*max_element(v2.begin(),v2.end())));//计算线性度
+    EditShowData(strtemp);
+	strtemp.Format(_T("%s\r\n"),_T("----------------------------------------------------"));
+    EditShowData(strtemp);
+	out_vec.push_back((*max_element(detay.begin(),detay.end()))/(*max_element(v2.begin(),v2.end())));//计算线性度 
+	
+    CRect rectPicture; 
+	m_picDraw.GetClientRect(&rectPicture); 
+	DrawWave(m_picDraw.GetDC(), rectPicture,v1,v2,b[1],b[0]);
+	m_getdata=FALSE;
+
+
+	m_tempv1=v1;
+	m_tempv2=v2;
+	m_tempb1=b[1];
+	m_tempb0=b[0];
+
+	m_pictureok=TRUE;
+
+}
+
+
+
+
 void CinputDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -552,6 +954,13 @@ void CinputDlg::OnBnClickedCancel()
 	CString strTemp1("C:\\信号调理组合\\");
 	m_filenum=0;//归零
 	strFolder=strTemp1+m_inputstring3;
+
+
+	char *m_historyname_temp=T2A(m_inputstring3);
+	memcpy(m_historyname,m_historyname_temp,1024);
+
+	WRfilename("C:\\信号调理组合\\最近打开文件名.txt",true,m_historyname);//写入
+
 
 	strTemp2=strFolder+CString(_T("\\*.txt"));
 	memcpy(m_Rfilename,(char*)T2A(strTemp2.GetBuffer(0)),100);
@@ -731,7 +1140,32 @@ void CinputDlg::OnBnClickedcolse()
 
 	
 }
+void CinputDlg::WRfilename(char* filename,bool wr,char *name)
+{
 
+	 FILE* wrfileid;
+	 char buf[1024];  /*缓冲区*/
+	 int len;
+
+	if(wr==true)//保存
+	{
+		wrfileid=fopen(filename,"w+");
+		fprintf(wrfileid,"%s",name);
+		fclose(wrfileid);
+	}
+	else if(wr==false)//读取
+	{
+		wrfileid=fopen(filename,"r+");
+		while(fgets(buf,1024,wrfileid) != NULL)
+		{
+			 len = strlen(buf);
+			// buf[len-1] = '\0';  /*去掉换行符*/
+			 
+		 }
+		memcpy(name,buf,1024);
+		fclose(wrfileid);
+	}
+}
 
 void CinputDlg::OnBnClickedStart()
 {
@@ -745,13 +1179,22 @@ void CinputDlg::OnBnClickedStart()
 		return;
 	}
 
+	
 
+
+
+	USES_CONVERSION;
 	// TODO: 在此添加控件通知处理程序代码
 	GetDlgItem(IDCANCEL)->EnableWindow (FALSE);//按钮不可用
 	UpdateData(TRUE);
 	CString strTemp1("C:\\信号调理组合\\");
 	CString exstrFolder;
 	exstrFolder=strTemp1+m_inputstring3;
+	
+	char *m_historyname_temp=T2A(m_inputstring3);
+	memcpy(m_historyname,m_historyname_temp,1024);
+
+	WRfilename("C:\\信号调理组合\\最近打开文件名.txt",true,m_historyname);//写入
 	int nIndex=m_Select.GetCurSel();
 	if(!PathFileExists(exstrFolder))//根据提示创建新的文件夹用于存放此次测试的表格
     {
@@ -1517,12 +1960,12 @@ void CinputDlg::OnBnClickedOver()
 	    range.put_Value(vtMissing, COleVariant(vec_str[i]));	
 	}
 
-GameOver2:
+
 
 	  app.put_Visible(TRUE);
 	  book.Save();
 	  book.put_Saved(TRUE);
-
+GameOver2:
 	  m_out.clear();
 	  m_str.clear();
 	 // m_filenum=0;//结束填表时需要归零
@@ -1571,3 +2014,391 @@ HBRUSH CinputDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
 	return hbr;
 }
+
+
+void CinputDlg::OnBnClickedcolse2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_saveclick=FALSE;
+	GetDlgItem(IDOK)->EnableWindow (TRUE);
+    GetDlgItem(IDCANCEL)->EnableWindow (TRUE);
+	MessageBox(_T("填表复位成功，“开始填表”按钮此时有效!"));
+}
+
+
+void CinputDlg::OnBnClickedcolse3()
+{
+	
+
+	if(m_saveclick==TRUE)
+	{
+		
+	}
+	else
+	{
+		AfxMessageBox(_T("目前没有填表操作，请先点击”开始填表“！！"));
+		return;
+	}
+
+	//OnBnClickedCancel();
+	
+
+	strFolder=_T("C:\\信号调理组合");
+	EditShowData(CString(_T("")));
+	m_getdata=TRUE;
+	USES_CONVERSION;
+	UpdateData(TRUE);
+	CString outtemp;
+	CString strfolder;
+	std::vector<float> _out_vec;
+	std::vector<CString> _str_out;
+	CString temp;
+	std::vector<float> v_tmp1,v_tmp2;
+	v_tmp1=CStringtoFloat(m_inputstring1);
+	v_tmp2=CStringtoFloat(m_inputstring2);
+	int nIndex=m_Select2.GetCurSel();
+
+
+
+
+	switch(nIndex)
+	{
+	    case Data_I_2U_ch1:m_filenum=0;break;
+        case Data_I_2U_ch2:m_filenum=1;break;
+		case Data_I_2U_ch3:m_filenum=2;break;
+        case Data_I_2U_ch4:m_filenum=3;break;
+	    case Data_I_2U_ch5:m_filenum=4;break;
+        case Data_I_2U_ch6:m_filenum=5;break;	   
+		default:break;
+	}
+
+	if(v_tmp1.empty() || v_tmp2.empty())
+	{
+		AfxMessageBox(_T("输入异常，请重新输入!!"));
+
+		return;
+	}
+	if(v_tmp1.size()!=v_tmp2.size())
+	{
+		AfxMessageBox(_T("输入x与y数量不相等，请检查!!"));
+
+		return;
+	}
+	if(m_filenum<10)
+        temp.Format(_T("_SourceData_0%d.txt"),m_filenum);
+	else
+	    temp.Format(_T("_SourceData_%2d.txt"),m_filenum);
+
+
+	strfolder=strFolder+CString(_T("\\"))+m_inputstring3+CString(_T("\\"))+m_inputstring3+temp;
+
+	memcpy(m_filename,(char*)T2A(strfolder.GetBuffer(0)),100);
+	
+	getData(m_filename,v_tmp1,v_tmp2);
+
+	outtemp=strFolder+CString(_T("\\"))+m_inputstring3+CString(_T("\\"))+m_inputstring3+CString(_T("_out.txt"));
+	memcpy(m_outfilename,(char*)T2A(outtemp.GetBuffer(0)),100);
+	outFileID=fopen(m_outfilename,"a+");
+	if(outFileID==NULL)
+	{
+		AfxMessageBox(_T("打开文件错误！！"));
+
+		return;
+	}
+
+
+	
+
+	fprintf(outFileID,"%s[%d]!-------------\r\n\n",">>>>-----------Warning!!ResetData",m_filenum);
+
+	CalData_02(outFileID,v_tmp1,v_tmp2,_out_vec,_str_out);
+	fclose(outFileID);
+
+
+	m_inputstring4.Format(_T("%d"),m_filenum+1);
+	
+
+	UpdateData(FALSE);
+
+	HRESULT hr = ::CoInitializeEx( NULL, COINIT_MULTITHREADED );
+	std::vector<CString> vec_str;
+	std::vector<float> vec_float;
+	std::vector<CString> vec_Pos;
+	COleVariant vResult;
+	COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+	if(!app.CreateDispatch(L"Excel.Application"))
+	{
+	    AfxMessageBox(L"无法启动Excel服务器!");
+	    return;
+	}
+	books.AttachDispatch(app.get_Workbooks());
+	lpDisp = books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
+		covOptional, covOptional, covOptional, covOptional);
+	
+	//得到Workbook
+	book.AttachDispatch(lpDisp);
+	//得到Worksheets
+	sheets.AttachDispatch(book.get_Worksheets());
+
+	sheet = sheets.get_Item(COleVariant((short)9));
+
+
+	if(m_Select.GetCurSel()==I2U)
+	{
+
+#if 1
+	switch(nIndex)
+	{
+				case Data_I_2U_ch1:
+					{
+					vec_Pos.clear();
+					vec_Pos.push_back(_T("I4"));
+					vec_Pos.push_back(_T("I5"));
+					vec_Pos.push_back(_T("I6"));
+					vec_Pos.push_back(_T("I7"));
+					vec_Pos.push_back(_T("I8"));
+
+					vec_Pos.push_back(_T("J4"));
+					vec_Pos.push_back(_T("K4"));
+					vec_Pos.push_back(_T("J5"));
+					vec_Pos.push_back(_T("K5"));
+					vec_Pos.push_back(_T("J6"));
+					vec_Pos.push_back(_T("K6"));
+					vec_Pos.push_back(_T("J7"));
+					vec_Pos.push_back(_T("K7"));
+					vec_Pos.push_back(_T("J8"));
+					vec_Pos.push_back(_T("K8"));
+
+					vec_Pos.push_back(_T("K9"));
+					vec_Pos.push_back(_T("E9"));
+
+					vec_Pos.push_back(_T("L4"));
+					vec_Pos.push_back(_T("L5"));
+					vec_Pos.push_back(_T("L6"));
+					vec_Pos.push_back(_T("L7"));
+					vec_Pos.push_back(_T("L8"));
+
+					break;
+					}
+				case Data_I_2U_ch2:
+					{
+					vec_Pos.clear();
+					vec_Pos.push_back(_T("I10"));
+					vec_Pos.push_back(_T("I11"));
+					vec_Pos.push_back(_T("I12"));
+					vec_Pos.push_back(_T("I13"));
+					vec_Pos.push_back(_T("I14"));
+
+					vec_Pos.push_back(_T("J10"));
+					vec_Pos.push_back(_T("K10"));
+					vec_Pos.push_back(_T("J11"));
+					vec_Pos.push_back(_T("K11"));
+					vec_Pos.push_back(_T("J12"));
+					vec_Pos.push_back(_T("K12"));
+					vec_Pos.push_back(_T("J13"));
+					vec_Pos.push_back(_T("K13"));
+					vec_Pos.push_back(_T("J14"));
+					vec_Pos.push_back(_T("K14"));
+
+					vec_Pos.push_back(_T("K15"));
+					vec_Pos.push_back(_T("E15"));
+
+					vec_Pos.push_back(_T("L10"));
+					vec_Pos.push_back(_T("L11"));
+					vec_Pos.push_back(_T("L12"));
+					vec_Pos.push_back(_T("L13"));
+					vec_Pos.push_back(_T("L14"));
+
+					break;
+					}
+				case Data_I_2U_ch3:
+					{
+					vec_Pos.clear();
+					vec_Pos.push_back(_T("I16"));
+					vec_Pos.push_back(_T("I17"));
+					vec_Pos.push_back(_T("I18"));
+					vec_Pos.push_back(_T("I19"));
+					vec_Pos.push_back(_T("I20"));
+
+					vec_Pos.push_back(_T("J16"));
+					vec_Pos.push_back(_T("K16"));
+					vec_Pos.push_back(_T("J17"));
+					vec_Pos.push_back(_T("K17"));
+					vec_Pos.push_back(_T("J18"));
+					vec_Pos.push_back(_T("K18"));
+					vec_Pos.push_back(_T("J19"));
+					vec_Pos.push_back(_T("K19"));
+					vec_Pos.push_back(_T("J20"));
+					vec_Pos.push_back(_T("K20"));
+
+					vec_Pos.push_back(_T("K21"));
+					vec_Pos.push_back(_T("E21"));
+
+					vec_Pos.push_back(_T("L16"));
+					vec_Pos.push_back(_T("L17"));
+					vec_Pos.push_back(_T("L18"));
+					vec_Pos.push_back(_T("L19"));
+					vec_Pos.push_back(_T("L20"));
+
+					break;
+					}
+				case Data_I_2U_ch4:
+					{
+					vec_Pos.clear();
+					vec_Pos.push_back(_T("I22"));
+					vec_Pos.push_back(_T("I23"));
+					vec_Pos.push_back(_T("I24"));
+					vec_Pos.push_back(_T("I25"));
+					vec_Pos.push_back(_T("I26"));
+
+					vec_Pos.push_back(_T("J22"));
+					vec_Pos.push_back(_T("K22"));
+					vec_Pos.push_back(_T("J23"));
+					vec_Pos.push_back(_T("K23"));
+					vec_Pos.push_back(_T("J24"));
+					vec_Pos.push_back(_T("K24"));
+					vec_Pos.push_back(_T("J25"));
+					vec_Pos.push_back(_T("K25"));
+					vec_Pos.push_back(_T("J26"));
+					vec_Pos.push_back(_T("K26"));
+
+					vec_Pos.push_back(_T("K27"));
+					vec_Pos.push_back(_T("E27"));
+
+					vec_Pos.push_back(_T("L22"));
+					vec_Pos.push_back(_T("L23"));
+					vec_Pos.push_back(_T("L24"));
+					vec_Pos.push_back(_T("L25"));
+					vec_Pos.push_back(_T("L26"));
+
+					break;
+					}
+				case Data_I_2U_ch5:
+					{
+					vec_Pos.clear();
+					vec_Pos.push_back(_T("I28"));
+					vec_Pos.push_back(_T("I28"));
+					vec_Pos.push_back(_T("I30"));
+					vec_Pos.push_back(_T("I31"));
+					vec_Pos.push_back(_T("I32"));
+
+					vec_Pos.push_back(_T("J28"));
+					vec_Pos.push_back(_T("K28"));
+					vec_Pos.push_back(_T("J29"));
+					vec_Pos.push_back(_T("K29"));
+					vec_Pos.push_back(_T("J30"));
+					vec_Pos.push_back(_T("K30"));
+					vec_Pos.push_back(_T("J31"));
+					vec_Pos.push_back(_T("K31"));
+					vec_Pos.push_back(_T("J32"));
+					vec_Pos.push_back(_T("K32"));
+
+					vec_Pos.push_back(_T("K33"));
+					vec_Pos.push_back(_T("E33"));
+
+					vec_Pos.push_back(_T("L28"));
+					vec_Pos.push_back(_T("L29"));
+					vec_Pos.push_back(_T("L30"));
+					vec_Pos.push_back(_T("L31"));
+					vec_Pos.push_back(_T("L32"));
+
+					break;
+					}
+				case Data_I_2U_ch6:
+					{
+					vec_Pos.clear();
+					vec_Pos.push_back(_T("I34"));
+					vec_Pos.push_back(_T("I35"));
+					vec_Pos.push_back(_T("I36"));
+					vec_Pos.push_back(_T("I37"));
+					vec_Pos.push_back(_T("I38"));
+
+					vec_Pos.push_back(_T("J34"));
+					vec_Pos.push_back(_T("K34"));
+					vec_Pos.push_back(_T("J35"));
+					vec_Pos.push_back(_T("K35"));
+					vec_Pos.push_back(_T("J36"));
+					vec_Pos.push_back(_T("K36"));
+					vec_Pos.push_back(_T("J37"));
+					vec_Pos.push_back(_T("K37"));
+					vec_Pos.push_back(_T("J38"));
+					vec_Pos.push_back(_T("K38"));
+
+
+					vec_Pos.push_back(_T("K39"));
+					vec_Pos.push_back(_T("E39"));
+
+					vec_Pos.push_back(_T("L34"));
+					vec_Pos.push_back(_T("L35"));
+					vec_Pos.push_back(_T("L36"));
+					vec_Pos.push_back(_T("L37"));
+					vec_Pos.push_back(_T("L38"));
+
+					break;
+					}
+				default:break;
+	 }
+
+#endif
+	CString str_temp; 
+	for(size_t i=0;i<_out_vec.size();i++)
+	{
+		str_temp.Format(_T("%.4f"),_out_vec[i]);
+		if(i==15)
+		str_temp.Format(_T("%.6f"),_out_vec[i]);
+		vec_str.push_back(str_temp);
+		str_temp=_T("");
+	}
+	vec_str.push_back(_str_out[0]);
+	for(size_t i=0;i<5;i++)
+		vec_str.push_back(_T("√"));
+
+	}//end i2u
+
+	if(vec_Pos.size()!=vec_str.size())
+	{
+		MessageBox(_T("输入数据数量与实际数量不符，请重新输入!"));
+		goto GameOverTable;
+		return;
+	 }
+	for(size_t i=0;i<vec_Pos.size();++i)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+	    range.put_Value(vtMissing, COleVariant(vec_str[i]));	
+	}
+
+
+
+
+	 app.put_Visible(TRUE);
+	 book.Save();
+	 book.put_Saved(TRUE);
+
+GameOverTable:
+	 m_out.clear();
+	 m_str.clear();
+	 books.Close(); 
+     app.Quit();  			// 退出
+	  //释放对象  
+	 range.ReleaseDispatch();
+	 sheet.ReleaseDispatch();
+	 sheets.ReleaseDispatch();
+	 book.ReleaseDispatch();
+	 books.ReleaseDispatch();
+	 app.ReleaseDispatch();
+
+	  CoUninitialize(); 
+
+
+
+
+	_out_vec.clear();
+	_str_out.clear();
+
+
+}
+
+
+

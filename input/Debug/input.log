@@ -1,4 +1,4 @@
-﻿生成启动时间为 2019/12/4 20:52:52。
+﻿生成启动时间为 2019/12/18 11:07:40。
      1>项目“C:\Git\input\input\input.vcxproj”在节点 2 上(rebuild 个目标)。
      1>_PrepareForClean:
          正在删除文件“Debug\input.lastbuildstate”。
@@ -9,25 +9,25 @@
          stdafx.cpp
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\input.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt DO.cpp input.cpp inputDlg.cpp I_2U.cpp PageOne.cpp XHTL.cpp XHTL_ALL.cpp
          XHTL_ALL.cpp
-     1>c:\git\input\input\xhtl_all.cpp(460): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\xhtl_all.cpp(470): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\xhtl_all.cpp(520): warning C4244: “参数”: 从“size_t”转换到“const float”，可能丢失数据
-     1>c:\git\input\input\xhtl_all.cpp(539): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\xhtl_all.cpp(562): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\xhtl_all.cpp(572): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\xhtl_all.cpp(622): warning C4244: “参数”: 从“size_t”转换到“const float”，可能丢失数据
+     1>c:\git\input\input\xhtl_all.cpp(641): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\xhtl_all.cpp(638): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\xhtl_all.cpp(740): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\xhtl_all.cpp(729): warning C4244: “参数”: 从“size_t”转换到“float”，可能丢失数据
-     1>c:\git\input\input\xhtl_all.cpp(754): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\xhtl_all.cpp(831): warning C4244: “参数”: 从“size_t”转换到“float”，可能丢失数据
+     1>c:\git\input\input\xhtl_all.cpp(856): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\xhtl_all.cpp(864): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\xhtl_all.cpp(966): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\xhtl_all.cpp(1077): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\xhtl_all.cpp(1179): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\xhtl_all.cpp(1082): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\xhtl_all.cpp(1121): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\xhtl_all.cpp(1196): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\xhtl_all.cpp(1205): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\xhtl_all.cpp(1248): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\xhtl_all.cpp(1184): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\xhtl_all.cpp(1223): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\xhtl_all.cpp(1298): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\xhtl_all.cpp(1307): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\xhtl_all.cpp(1350): warning C4018: “<”: 有符号/无符号不匹配
          XHTL.cpp
      1>c:\git\input\input\xhtl.cpp(314): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
      1>c:\git\input\input\xhtl.cpp(324): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
@@ -36,27 +36,43 @@
      1>c:\git\input\input\pageone.cpp(384): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
      1>c:\git\input\input\pageone.cpp(394): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
          I_2U.cpp
-     1>c:\git\input\input\i_2u.cpp(257): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\i_2u.cpp(267): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\i_2u.cpp(1141): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\i_2u.cpp(1151): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
          inputDlg.cpp
-     1>c:\git\input\input\inputdlg.cpp(267): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(277): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(289): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\inputdlg.cpp(507): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(517): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(529): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\inputdlg.cpp(294): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\inputdlg.cpp(326): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\inputdlg.cpp(401): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\inputdlg.cpp(407): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(408): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(443): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\git\input\input\inputdlg.cpp(454): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(458): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(458): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(464): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(465): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-     1>c:\git\input\input\inputdlg.cpp(517): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\git\input\input\inputdlg.cpp(534): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(566): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(641): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(647): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(648): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(683): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(694): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(698): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(698): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(704): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(705): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(730): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(805): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(811): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(812): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(847): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(858): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(862): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(862): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(868): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(869): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>c:\git\input\input\inputdlg.cpp(919): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-     1>c:\git\input\input\inputdlg.cpp(664): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(1073): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\git\input\input\inputdlg.cpp(1152): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+     1>c:\git\input\input\inputdlg.cpp(1158): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+     1>c:\git\input\input\inputdlg.cpp(2101): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
          input.cpp
          DO.cpp
      1>c:\git\input\input\do.cpp(345): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
@@ -100,4 +116,4 @@
 
 生成成功。
 
-已用时间 00:00:12.56
+已用时间 00:00:11.42

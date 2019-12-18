@@ -81,6 +81,884 @@ END_MESSAGE_MAP()
 
 // I_2U 消息处理程序
 
+CString I_2U::VariantToString(VARIANT var)
+{
+	CString strValue;
+	_variant_t var_t;
+	_bstr_t bstr_t;
+
+	COleCurrency var_currency;
+	switch(var.vt)
+	{
+		case VT_EMPTY:
+		case VT_NULL: strValue=_T("");break;
+		case VT_UI1:strValue.Format(_T("%d"),var.bVal);break;//bool
+		case VT_I2:strValue.Format(_T("%d"),var.iVal);break;//int
+		case VT_I4:strValue.Format(_T("%d"),var.lVal);break;//long
+		case VT_R4:strValue.Format(_T("%f"),var.fltVal);break;//float
+		case VT_R8:strValue.Format(_T("%f"),var.dblVal);break;//double
+		case VT_CY:
+			var_currency=var;
+			strValue=var_currency.Format(0);break;
+		case VT_BSTR:
+			{
+			var_t =var;
+			bstr_t=var_t;
+			//strValue.Format(_T("%s"),(const char*)bstr_t);break;
+			CString temp= CString(var.bstrVal);strValue=temp;break;
+			}
+		case VT_DATE:
+			{
+				CTime myTime(((COleDateTime)var).GetYear(),
+					((COleDateTime)var).GetMonth(),
+					((COleDateTime)var).GetDay(),
+					((COleDateTime)var).GetHour(),
+				((COleDateTime)var).GetMinute(),
+					((COleDateTime)var).GetSecond());
+				strValue=myTime.Format(_T("%Y/%m/%d"));
+			}
+			break;
+		case VT_BOOL:
+			strValue.Format(_T("%d"),var.boolVal);break;
+
+		default:strValue=_T("");break;
+	}
+
+	return strValue;
+}
+
+void I_2U::ReloadData()
+{
+	HRESULT hr = ::CoInitializeEx( NULL, COINIT_MULTITHREADED );
+
+	std::vector<CString> vec_Pos;
+	std::vector<CString> vec_loadstr;
+	std::vector<CString*> temp_strs;
+	std::vector<CString> temp_init;
+	COleVariant vResult;
+	CString strout;
+	VARIANT re_out;
+
+    vec_Pos.push_back(_T("B4"));
+    vec_Pos.push_back(_T("B5"));
+
+    vec_Pos.push_back(_T("B7"));
+
+    vec_Pos.push_back(_T("B10"));
+    vec_Pos.push_back(_T("B11"));
+
+	vec_Pos.push_back(_T("D13"));
+    vec_Pos.push_back(_T("D14"));
+    vec_Pos.push_back(_T("D15"));
+    vec_Pos.push_back(_T("D16"));
+
+
+	temp_strs.push_back(&m_boardnum);
+	temp_strs.push_back(&m_opname);
+	temp_strs.push_back(&m_测试阶段);
+	temp_strs.push_back(&m_tempture);
+    temp_strs.push_back(&m_humidity);
+	temp_strs.push_back(&m_multimeter);
+	temp_strs.push_back(&m_constant_volt_source);
+	temp_strs.push_back(&m_signal_source);
+	temp_strs.push_back(&m_测试工装);
+
+
+	temp_init.push_back(_T("I_2U_201901001"));
+	temp_init.push_back(_T("路人甲"));
+	temp_init.push_back(_T("单板环境试验后"));
+	temp_init.push_back(_T("25℃"));
+	temp_init.push_back(_T("40%"));
+
+	 temp_init.push_back(_T("20190620-20200619"));
+	 temp_init.push_back(_T("20190620-20200619"));
+	 temp_init.push_back(_T("20190620-20200619"));
+	 temp_init.push_back(_T("20190620-20200619"));
+	 
+
+	COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+	if(!app.CreateDispatch(L"Excel.Application"))
+	{
+	    AfxMessageBox(L"无法启动Excel服务器!");
+	    return;
+	}
+	books.AttachDispatch(app.get_Workbooks());
+	lpDisp = books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
+		covOptional, covOptional, covOptional, covOptional);
+
+	
+	
+	//得到Workbook
+	book.AttachDispatch(lpDisp);
+	//得到Worksheets
+	sheets.AttachDispatch(book.get_Worksheets());
+
+	sheet = sheets.get_Item(COleVariant((short)1));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<temp_strs.size();i++)
+	{
+		if(vec_loadstr[i]==_T(""))
+		{
+			*temp_strs[i]=temp_init[i];
+		}
+		else
+		{
+			*temp_strs[i]=vec_loadstr[i];
+		}
+		if(i==4)
+		{
+			CString strtemp;
+			(*temp_strs[i]).Format(_T("%.2f"),_ttof(vec_loadstr[i])*100);
+			(*temp_strs[i])+=_T("%");
+			strtemp=(*temp_strs[i]);
+		}
+	}
+	/************************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab2=_T("");
+	vec_Pos.push_back(_T("F12"));
+	vec_Pos.push_back(_T("F13"));
+	vec_Pos.push_back(_T("F14"));
+	vec_Pos.push_back(_T("F15"));
+	vec_Pos.push_back(_T("F16"));
+	vec_Pos.push_back(_T("F17"));
+	vec_Pos.push_back(_T("F18"));
+	vec_Pos.push_back(_T("F19"));
+	vec_Pos.push_back(_T("F20"));
+	vec_Pos.push_back(_T("F21"));
+	vec_Pos.push_back(_T("F22"));
+	vec_Pos.push_back(_T("F23"));
+
+	
+	sheet = sheets.get_Item(COleVariant((short)2));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+	CString strf_temp;
+	int empty_count=0;
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+
+		  strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		  if(i!=vec_loadstr.size()-1)
+		  {
+			  if(vec_loadstr[i]!=_T(""))
+			  {
+		         m_tab2+=strf_temp+_T(",");
+				 
+			  }
+			  else
+			  {
+				 m_tab2+=_T("X,");
+				 empty_count++;
+			  }
+		  }
+		  else
+		  {
+			  if(vec_loadstr[i]!=_T(""))
+				  m_tab2+=strf_temp;
+			  else
+			  {
+				  m_tab2+=_T("");
+				  empty_count++;
+			  }
+		  }	
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab2=_T("");
+#if 1
+	/************************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab3=_T("");
+	vec_Pos.push_back(_T("H4"));
+	vec_Pos.push_back(_T("H5"));
+	vec_Pos.push_back(_T("H6"));
+	vec_Pos.push_back(_T("H7"));
+	vec_Pos.push_back(_T("H8"));
+	vec_Pos.push_back(_T("H9"));
+	vec_Pos.push_back(_T("H10"));
+	vec_Pos.push_back(_T("H11"));
+	vec_Pos.push_back(_T("H12"));
+	vec_Pos.push_back(_T("H13"));
+	vec_Pos.push_back(_T("H14"));
+	vec_Pos.push_back(_T("H15"));
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)3));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+	
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+
+
+				m_tab3+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab3+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab3+=strf_temp;
+			  else
+			  {
+				  m_tab3+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+
+	if(empty_count==vec_loadstr.size())
+	{
+	    m_tab3=_T("8,8,8,8,8,8,8,8,8,8,8,8");
+	}
+	 
+	
+
+#endif
+
+	/***********************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab4=_T("");
+
+	vec_Pos.push_back(_T("H4"));
+	vec_Pos.push_back(_T("H5"));
+	vec_Pos.push_back(_T("H6"));
+	vec_Pos.push_back(_T("H7"));
+	vec_Pos.push_back(_T("H8"));
+	vec_Pos.push_back(_T("H9"));
+	vec_Pos.push_back(_T("H10"));
+	vec_Pos.push_back(_T("H11"));
+	vec_Pos.push_back(_T("H12"));
+	vec_Pos.push_back(_T("H13"));
+	vec_Pos.push_back(_T("H14"));
+	vec_Pos.push_back(_T("H15"));
+	vec_Pos.push_back(_T("H16"));
+	vec_Pos.push_back(_T("H17"));
+	vec_Pos.push_back(_T("H18"));
+	vec_Pos.push_back(_T("H19"));
+
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)4));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab4+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab4+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab4+=strf_temp;
+			  else
+			  {
+				  m_tab4+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+	{
+		m_tab4=_T("250,8,8,8,8,8,8,8,8,8,8,8,8,250,8,8");
+	
+	}
+		
+	/************************************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab5=_T("");
+
+	vec_Pos.push_back(_T("H4"));
+	vec_Pos.push_back(_T("H5"));
+	vec_Pos.push_back(_T("H6"));
+	vec_Pos.push_back(_T("H7"));
+	vec_Pos.push_back(_T("H8"));
+	vec_Pos.push_back(_T("H9"));
+	vec_Pos.push_back(_T("H10"));
+	vec_Pos.push_back(_T("H11"));
+	vec_Pos.push_back(_T("H12"));
+	vec_Pos.push_back(_T("H13"));
+	vec_Pos.push_back(_T("H14"));
+	vec_Pos.push_back(_T("H15"));
+	vec_Pos.push_back(_T("H16"));
+	vec_Pos.push_back(_T("H17"));
+	vec_Pos.push_back(_T("H18"));
+	vec_Pos.push_back(_T("H19"));
+	vec_Pos.push_back(_T("H20"));
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)5));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab5+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab5+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab5+=strf_temp;
+			  else
+			  {
+				  m_tab5+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+	{
+		 m_tab5=_T("8,8,8,8,8,8,8,8,250,8,8,8,8,8,8,8,8");
+	 
+	}
+		
+	/***************************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab6=_T("");
+
+	vec_Pos.push_back(_T("H4"));
+	vec_Pos.push_back(_T("H5"));
+	vec_Pos.push_back(_T("H6"));
+	vec_Pos.push_back(_T("H7"));
+	vec_Pos.push_back(_T("H8"));
+	vec_Pos.push_back(_T("H9"));
+	vec_Pos.push_back(_T("H10"));
+	vec_Pos.push_back(_T("H11"));
+	vec_Pos.push_back(_T("H12"));
+	vec_Pos.push_back(_T("H13"));
+	vec_Pos.push_back(_T("H14"));
+	vec_Pos.push_back(_T("H15"));
+	vec_Pos.push_back(_T("H16"));
+	vec_Pos.push_back(_T("H17"));
+	vec_Pos.push_back(_T("H18"));
+	vec_Pos.push_back(_T("H19"));
+	vec_Pos.push_back(_T("H20"));
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)6));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab6+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab6+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab6+=strf_temp;
+			  else
+			  {
+				  m_tab6+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab6=_T("1.68,1.68,50,8,8,8,8,1.68,50,8,8,8,8,50,8,8,8");
+	/***********************************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab7=_T("");
+
+	vec_Pos.push_back(_T("H4"));
+	vec_Pos.push_back(_T("H5"));
+	vec_Pos.push_back(_T("H6"));
+	vec_Pos.push_back(_T("H7"));
+	vec_Pos.push_back(_T("H8"));
+	vec_Pos.push_back(_T("H9"));
+	vec_Pos.push_back(_T("H10"));
+
+
+
+
+
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)7));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab7+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab7+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab7+=strf_temp;
+			  else
+			  {
+				  m_tab7+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab7=_T("");
+
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab8=_T("");
+
+	vec_Pos.push_back(_T("H17"));
+	vec_Pos.push_back(_T("H18"));
+	vec_Pos.push_back(_T("H19"));
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)7));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab8+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab8+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab8+=strf_temp;
+			  else
+			  {
+				  m_tab8+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab8=_T("");
+	/***************************/
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab9=_T("");
+	vec_Pos.push_back(_T("I4"));
+	vec_Pos.push_back(_T("I5"));
+	vec_Pos.push_back(_T("I6"));
+	vec_Pos.push_back(_T("I7"));
+	vec_Pos.push_back(_T("I8"));
+	vec_Pos.push_back(_T("I9"));
+	vec_Pos.push_back(_T("I10"));
+	vec_Pos.push_back(_T("I11"));
+	vec_Pos.push_back(_T("I12"));
+	vec_Pos.push_back(_T("I13"));
+	vec_Pos.push_back(_T("I14"));
+	vec_Pos.push_back(_T("I15"));
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)8));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab9+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab9+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab9+=strf_temp;
+			  else
+			  {
+				  m_tab9+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab9=_T("");
+
+
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab10=_T("");
+
+	vec_Pos.push_back(_T("I22"));
+	vec_Pos.push_back(_T("I23"));
+	vec_Pos.push_back(_T("I24"));
+	vec_Pos.push_back(_T("I25"));
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)8));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab10+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab10+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab10+=strf_temp;
+			  else
+			  {
+				  m_tab10+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab10=_T("");
+
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab11=_T("");
+
+	vec_Pos.push_back(_T("C32"));
+	vec_Pos.push_back(_T("I32"));
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)8));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab11+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab11+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab11+=strf_temp;
+			  else
+			  {
+				  m_tab11+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab11=_T("");
+
+
+	/*********************************************/
+
+	vec_Pos.clear();
+	vec_loadstr.clear();
+	m_tab12=_T("");
+
+
+	vec_Pos.push_back(_T("I4"));
+	vec_Pos.push_back(_T("I5"));
+	vec_Pos.push_back(_T("I6"));
+	vec_Pos.push_back(_T("I7"));
+	vec_Pos.push_back(_T("I8"));
+	vec_Pos.push_back(_T("I9"));
+	vec_Pos.push_back(_T("I10"));
+	vec_Pos.push_back(_T("I11"));
+	vec_Pos.push_back(_T("I12"));
+	vec_Pos.push_back(_T("I13"));
+	vec_Pos.push_back(_T("I14"));
+	vec_Pos.push_back(_T("I15"));
+	vec_Pos.push_back(_T("I16"));
+	vec_Pos.push_back(_T("I17"));
+	vec_Pos.push_back(_T("I18"));
+	vec_Pos.push_back(_T("I19"));
+	vec_Pos.push_back(_T("I20"));
+	vec_Pos.push_back(_T("I21"));
+
+	empty_count=0;
+	sheet = sheets.get_Item(COleVariant((short)10));
+	for(size_t i=0;i<vec_Pos.size();i++)
+	{
+		lpDisp = sheet.get_Range(COleVariant(vec_Pos[i]), COleVariant(vec_Pos[i]));
+	    //将数据链接到单元格//将数据写入对应的单元格
+	    range.AttachDispatch(lpDisp);
+		re_out=range.get_Value(vtMissing);
+		//re_out=range.get_Value2();
+		vec_loadstr.push_back(VariantToString(re_out));
+	}
+	int pos;
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		pos=0;
+		if(i<2 || (i>7 && i<=9) ||i>=16)
+		{
+			pos=vec_loadstr[i].Find('V');
+		}
+		else
+		{
+			pos=vec_loadstr[i].Find('m');
+		}
+		if(pos>0)
+		  vec_loadstr[i]=vec_loadstr[i].Left(pos);
+			  
+	}
+
+	for(size_t i=0;i<vec_loadstr.size();i++)
+	{
+		//strf_temp.Format(_T("%d"),_ttof(vec_loadstr[i]));
+		strf_temp=vec_loadstr[i];
+		if(strf_temp==_T("∞"))
+			strf_temp=_T("8");
+		else
+			strf_temp.Format(_T("%.3f"),_ttof(vec_loadstr[i]));
+		if(i!=vec_loadstr.size()-1)
+		{
+			if(vec_loadstr[i]!=_T(""))
+			{
+				m_tab12+=strf_temp+_T(",");	
+			}
+			else
+			{
+				m_tab12+=_T("X,");
+				empty_count++;
+			}
+		}
+		else
+		{
+          	  if(vec_loadstr[i]!=_T(""))
+				  m_tab12+=strf_temp;
+			  else
+			  {
+				  m_tab12+=_T("");
+				  empty_count++;
+			  }
+		}
+	}
+	if(empty_count==vec_loadstr.size())
+		m_tab12=_T("");
+
+
+
+	books.Close(); 
+    app.Quit();  			// 退出
+	//释放对象  
+	range.ReleaseDispatch();
+	sheet.ReleaseDispatch();
+	sheets.ReleaseDispatch();
+	book.ReleaseDispatch();
+	books.ReleaseDispatch();
+	app.ReleaseDispatch();
+
+
+	CoUninitialize(); 
+
+
+}
+
+
+
 
 BOOL I_2U::OnInitDialog()
 {
@@ -129,7 +1007,13 @@ BOOL I_2U::OnInitDialog()
 	 m_click=TRUE;//初始可以单击
 
 
+	 lpDisp=NULL;
+
+	ReloadData();
 	UpdateData(FALSE);
+
+	
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -340,11 +1224,17 @@ DWORD I_2U::Button1Thread(LPVOID lpParam)
 	    return TRUE;
 	}
 	pMain->books.AttachDispatch(pMain->app.get_Workbooks());
-	pMain->lpDisp = pMain->books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
+	try
+	{
+		pMain->lpDisp = pMain->books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
 		covOptional, covOptional, covOptional, covOptional);
-
-	
-	
+	}
+	catch(std::runtime_error err)
+	{
+		CString str_err(err.what());
+		AfxMessageBox(str_err);
+		return TRUE;
+	}
 	//得到Workbook
 	pMain->book.AttachDispatch(pMain->lpDisp);
 	//得到Worksheets
@@ -395,9 +1285,9 @@ DWORD I_2U::Button1Thread(LPVOID lpParam)
 	    pMain->range.put_Value(vtMissing, COleVariant(vec_str[i]));
 	}
 
-	//pMain->app.put_Visible(TRUE);
-	//pMain->book.Save();
-	//pMain->book.put_Saved(TRUE);
+	pMain->app.put_Visible(TRUE);
+	pMain->book.Save();
+	pMain->book.put_Saved(TRUE);
 
 
 
@@ -445,7 +1335,8 @@ DWORD I_2U::Button2Thread(LPVOID lpParam)
 	pMain->books.AttachDispatch(pMain->app.get_Workbooks());
 	pMain->lpDisp = pMain->books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
 		covOptional, covOptional, covOptional, covOptional);
-	
+
+
 	//得到Workbook
 	pMain->book.AttachDispatch(pMain->lpDisp);
 	//得到Worksheets
@@ -1797,6 +2688,6 @@ void I_2U::OnBnClickedCancel()
 void I_2U::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	m_closeornot=TRUE;
-	CDialogEx::OnOK();
+	ReloadData();
+	UpdateData(FALSE);
 }
