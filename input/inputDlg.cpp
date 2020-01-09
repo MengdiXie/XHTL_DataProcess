@@ -171,48 +171,51 @@ void CinputDlg::OnSelectEvent()
 		AfxMessageBox(_T("目前没有填表操作，请先点击”开始填表“！！"));
 		return;
 	}
-	HRESULT hr = ::CoInitializeEx( NULL, COINIT_MULTITHREADED );
+	
 
-	std::vector<CString> vec_Pos;
-	std::vector<CString> vec_loadstr;
-	vec_Pos.clear();
-    vec_loadstr.clear();
-	m_inputstring2=_T("");
-	COleVariant vResult;
-	CString strout;
-	VARIANT re_out;
-	COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
-	if(!app.CreateDispatch(L"Excel.Application"))
+	int nIndex=m_Select2.GetCurSel();
+	int typeIndex=m_Select.GetCurSel();
+	HRESULT hr = ::CoInitializeEx( NULL, COINIT_MULTITHREADED );
+	if(nIndex<6 && typeIndex==I2U)//I-2U板卡
 	{
-	    AfxMessageBox(L"无法启动Excel服务器!");
-	    return;
-	}
-	books.AttachDispatch(app.get_Workbooks());
-	lpDisp = books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
+
+		std::vector<CString> vec_Pos;
+		std::vector<CString> vec_loadstr;
+		vec_Pos.clear();
+		vec_loadstr.clear();
+		m_inputstring2=_T("");
+		COleVariant vResult;
+		CString strout;
+		VARIANT re_out;
+		COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+		if(!app.CreateDispatch(L"Excel.Application"))
+		{
+			  AfxMessageBox(L"无法启动Excel服务器!");
+			  return;
+		}
+		books.AttachDispatch(app.get_Workbooks());
+		lpDisp = books.Open(exfilename,covOptional, covOptional, covOptional, covOptional, covOptional,covOptional, covOptional, covOptional, covOptional, covOptional,
 		covOptional, covOptional, covOptional, covOptional);
 
 	
 	
-	//得到Workbook
-	book.AttachDispatch(lpDisp);
-	//得到Worksheets
-	sheets.AttachDispatch(book.get_Worksheets());
-	sheet = sheets.get_Item(COleVariant((short)9));
+		//得到Workbook
+		book.AttachDispatch(lpDisp);
+		//得到Worksheets
+		sheets.AttachDispatch(book.get_Worksheets());
+		sheet = sheets.get_Item(COleVariant((short)9));
 	
 
-
-	int nIndex=m_Select2.GetCurSel();
-
-	switch(nIndex)
-	{
-	   case Data_I_2U_ch1:
+		switch(nIndex)
+		{
+		  case Data_I_2U_ch1:
 		   {
 			   vec_Pos.push_back(_T("I4"));vec_Pos.push_back(_T("I5"));vec_Pos.push_back(_T("I6"));
 			   vec_Pos.push_back(_T("I7"));vec_Pos.push_back(_T("I8"));
 
 			   break;
 		   }
-	   case Data_I_2U_ch2:
+		 case Data_I_2U_ch2:
 		   {
 			   vec_Pos.push_back(_T("I10"));
 			   vec_Pos.push_back(_T("I11"));
@@ -222,7 +225,7 @@ void CinputDlg::OnSelectEvent()
 
 			   break;
 		   }
-	   case Data_I_2U_ch3:
+		case Data_I_2U_ch3:
 		   {
 			   vec_Pos.push_back(_T("I16"));
 			   vec_Pos.push_back(_T("I17"));
@@ -232,7 +235,7 @@ void CinputDlg::OnSelectEvent()
 
 			   break;
 		   }
-	   case Data_I_2U_ch4:
+		 case Data_I_2U_ch4:
 		   {
 			   vec_Pos.push_back(_T("I22"));
 			   vec_Pos.push_back(_T("I23"));
@@ -242,7 +245,7 @@ void CinputDlg::OnSelectEvent()
 
 			   break;
 		   }
-	   case Data_I_2U_ch5:
+		case Data_I_2U_ch5:
 		   {
 			   vec_Pos.push_back(_T("I28"));
 			   vec_Pos.push_back(_T("I29"));
@@ -252,7 +255,7 @@ void CinputDlg::OnSelectEvent()
 
 			   break;
 		   }
-	   case Data_I_2U_ch6:
+		 case Data_I_2U_ch6:
 		   {
 			   vec_Pos.push_back(_T("I34"));
 			   vec_Pos.push_back(_T("I35"));
@@ -330,6 +333,17 @@ void CinputDlg::OnSelectEvent()
 	CoUninitialize(); 
 
 
+	}
+	else if(nIndex>=6 && typeIndex==UI)//UI板卡
+	{
+		MessageBox(_T("UI板卡测试"));
+	}
+
+
+
+	
+
+
 }
 
 
@@ -386,6 +400,14 @@ BOOL CinputDlg::OnInitDialog()
 	m_Select2.AddString(_T("I_2U_CH4"));
 	m_Select2.AddString(_T("I_2U_CH5"));
 	m_Select2.AddString(_T("I_2U_CH6"));
+
+	m_Select2.AddString(_T("带载_U-I_CH1"));
+	m_Select2.AddString(_T("带载_U-I_CH2"));
+	m_Select2.AddString(_T("带载_U-I_CH3"));
+	m_Select2.AddString(_T("不带载_U-I_CH1"));
+	m_Select2.AddString(_T("不带载_U-I_CH2"));
+	m_Select2.AddString(_T("不带载_U-I_CH3"));
+
 	m_Select2.SetCurSel(0);
 
 	
@@ -2041,7 +2063,10 @@ void CinputDlg::OnBnClickedcolse3()
 	}
 
 	//OnBnClickedCancel();
-	
+	int nIndex=m_Select2.GetCurSel();
+	int typeIndex=m_Select.GetCurSel();
+	if(nIndex<6 && typeIndex==I2U)
+	{
 
 	strFolder=_T("C:\\信号调理组合");
 	EditShowData(CString(_T("")));
@@ -2056,7 +2081,7 @@ void CinputDlg::OnBnClickedcolse3()
 	std::vector<float> v_tmp1,v_tmp2;
 	v_tmp1=CStringtoFloat(m_inputstring1);
 	v_tmp2=CStringtoFloat(m_inputstring2);
-	int nIndex=m_Select2.GetCurSel();
+	
 
 
 
@@ -2397,6 +2422,11 @@ GameOverTable:
 	_out_vec.clear();
 	_str_out.clear();
 
+	}
+	else if(nIndex>=6 && typeIndex==UI)
+	{
+		MessageBox(_T("UI板卡计算！"));
+	}
 
 }
 

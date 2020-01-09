@@ -1211,9 +1211,9 @@ void PageOne::OnBnClickedButton1()
 	    range.put_Value(vtMissing, COleVariant(vec_str[i]));
 	}
 
-	//app.put_Visible(TRUE);
-	//book.Save();
-	//book.put_Saved(TRUE);
+	app.put_Visible(TRUE);
+	book.Save();
+	book.put_Saved(TRUE);
 
 
 	books.Close(); 
